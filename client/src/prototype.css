@@ -1,0 +1,17 @@
+/* *{
+    border: 1px solid black;
+} */
+
+#page-wrapper{
+    height: 100vh;
+    background-color: #305c5e;
+    font-family: 'Titillium Web', sans-serif; 
+    padding-top: 20vh;
+}
+
+#quote-frame{
+    min-width: 600px;
+    border-radius: 5px;
+    color: #305c5e;
+    background-color: white;
+}

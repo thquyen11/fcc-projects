@@ -1,11 +1,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import App from './App';
+import {FCCProjects} from './containers/FCCProjects/cFCCProjects';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
+
 ReactDOM.render(
-  <App />,
-  document.getElementById('root') as HTMLElement
+  <FCCProjects />,
+  document.querySelector('#page-wrapper') as HTMLElement
 );
 registerServiceWorker();
