@@ -1,50 +1,36 @@
 import * as React from "react";
 import { connect } from "react-redux";
-// import {
-//   createStore,
-//   applyMiddleware,
-//   combineReducers
-// } from "../../../node_modules/redux";
-// import { composeWithDevTools } from "../../../node_modules/redux-devtools-extension";
-// import { Provider } from "react-redux";
-// import { createLogger } from "redux-logger";
-// import thunkMiddleware from "../../../node_modules/redux-thunk";
-import "bootstrap/dist/css/bootstrap.min.css";
-// import { RandomQuote } from "./rQuoteMachine";
-import { queryRandomQuote } from "./aQuoteMachine";
+import { queryRandomQuote, postTwitter } from "./aQuoteMachine";
+import './cQuoteMachine.css';
 
-// const logger = createLogger();
-// const rootReducers = combineReducers({
-//   RandomQuote
-// });
-// const store = createStore(
-//   rootReducers,
-//   composeWithDevTools(applyMiddleware(thunkMiddleware, logger))
-// );
 
-// if (process.env.NODE_ENV !== 'production') {
-//   const {whyDidYouUpdate} = require('why-did-you-update');
-//   whyDidYouUpdate(React);
-// }
 
-interface Props {
-  randomQuoteContent: string;
-  randomQuoteAuthor: string;
-  queryRandomQuote: typeof queryRandomQuote;
+interface StateProps{
+  quoteContent: string;
+  quoteAuthor: string;
 }
 
-const mapStateToProps = (state: any) => {
-  return {
-    randomQuoteContent: state.randomQuote.randomQuoteContent,
-    randomQuoteAuthor: state.randomQuote.randomQuoteAuthor
-  };
-};
+const mapStateToProps = (state: any): StateProps => {
+  return{
+    quoteContent: state.RandomQuote.randomQuoteContent,
+    quoteAuthor: state.RandomQuote.randomQuoteAuthor,
+  }
+}
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    queryRandomQuote: () => dispatch(queryRandomQuote())
-  };
-};
+interface DispatchProps{
+  queryRandomQuote: typeof queryRandomQuote;
+  postTwitter: typeof postTwitter;
+}
+
+const mapDispatchToProps = (dispatch:any): DispatchProps => {
+  return{
+    queryRandomQuote: () => dispatch(queryRandomQuote()),
+    postTwitter: ()=> dispatch(postTwitter()),
+  }
+}
+
+interface Props extends StateProps, DispatchProps{
+}
 
 export class QuoteMachine extends React.Component<Props> {
   constructor(props: Props) {
@@ -52,39 +38,25 @@ export class QuoteMachine extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    // const {
-    //   randomQuoteContent,
-    //   randomQuoteAuthor,
-    //   queryRandomQuote
-    // } = this.props;
+    const { quoteContent, quoteAuthor, queryRandomQuote, postTwitter } = this.props;
 
     return (
-      <div>
-        {/* <Provider store={store}> */}
-        Hello
-          {/* <div className="container col-md-4 p-5" id="quote-frame">
-            <div className="" id="quote-box">
-              <h3>{randomQuoteContent}</h3>
+        <div id="quote-machine-wrapper">
+          <div className="container col-md-4 p-5" id="quote-box">
+            <div className="text-center" id="text">
+              <h3>{quoteContent}</h3>
             </div>
-            <div className="text-right" id="quote-author">
-              <p>- {randomQuoteAuthor}</p>
+            <div className="text-right" id="author">
+              <p>- {quoteAuthor}</p>
             </div>
             <div className="row">
-              <i className="fab fa-3x fa-twitter-square mx-4" />
+              <a id="tweet-code" className="button" onClick={postTwitter} target="_blank" href=""><i className="fab fa-3x fa-twitter-square mx-4" /></a>
               <i className="fab fa-3x fa-facebook" />
-              <input
-                type="button"
-                onClick={queryRandomQuote}
-                value="New quote"
-                className="btn btn-primary ml-auto"
-              />
+              <input id="new-quote" type="button" onClick={queryRandomQuote} value="New quote" className="btn btn-primary ml-auto" />
             </div>
           </div>
-          <div className="text-center my-2">
-            <p>by Quyen</p>
-          </div> */}
-        {/* </Provider> */}
-      </div>
+          <div className="text-center my-2"><p>by Quyen</p></div>
+        </div>
     );
   }
 
@@ -93,7 +65,5 @@ export class QuoteMachine extends React.Component<Props> {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(QuoteMachine);
+export default connect(mapStateToProps, mapDispatchToProps)(QuoteMachine);
+

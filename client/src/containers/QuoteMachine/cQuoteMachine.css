@@ -1,0 +1,11 @@
+#quote-machine-wrapper{
+    padding-top: 20vh;
+}
+
+#quote-box{
+    min-width: 600px;
+    min-height: 300px;
+    border-radius: 5px;
+    color: #305c5e;
+    background-color: white;
+}
