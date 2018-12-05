@@ -38,7 +38,8 @@ export class QuoteMachine extends React.Component<Props> {
   }
 
   render(): JSX.Element {
-    const { quoteContent, quoteAuthor, queryRandomQuote, postTwitter } = this.props;
+    const { quoteContent, quoteAuthor, queryRandomQuote } = this.props;
+    const tweeting: string = "https://twitter.com/intent/tweet?hashtags=quotes&amp;related=freecodecamp&amp;text="+encodeURIComponent(quoteContent);
 
     return (
         <div id="quote-machine-wrapper">
@@ -49,12 +50,13 @@ export class QuoteMachine extends React.Component<Props> {
             <div className="text-right" id="author">
               <p>- {quoteAuthor}</p>
             </div>
-            <div className="row">
-              <a id="tweet-code" className="button" onClick={postTwitter} target="_blank" href=""><i className="fab fa-3x fa-twitter-square mx-4" /></a>
-              <i className="fab fa-3x fa-facebook" />
-              <input id="new-quote" type="button" onClick={queryRandomQuote} value="New quote" className="btn btn-primary ml-auto" />
+            <div className="row" id="buttons">
+              <a className="button" id="tweet-quote" title="Tweet this quote!" target="_blank" href={tweeting}>
+                <i className="fab fa-3x fa-twitter"></i>
+              </a>
+              <input id="new-quote" type="button" onClick={queryRandomQuote} value="New quote" className="btn btn-primary" />
             </div>
-          </div>
+            </div>
           <div className="text-center my-2"><p>by Quyen</p></div>
         </div>
     );

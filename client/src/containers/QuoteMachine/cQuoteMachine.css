@@ -9,3 +9,12 @@
     color: #305c5e;
     background-color: white;
 }
+
+#buttons{
+    position: absolute;
+    bottom: 2rem;
+}
+
+#tweet-quote{
+    margin-right: 23rem;
+}
