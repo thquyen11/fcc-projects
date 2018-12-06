@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { createLogger } from "redux-logger";
 import thunkMiddleware from "../node_modules/redux-thunk";
 import { RandomQuote } from "./containers/QuoteMachine/rQuoteMachine";
+import { Markdown, Zoom } from "./containers/MarkdownPreviewer/rMarkdownPreviewer";
 import {createStore,applyMiddleware,combineReducers} from "../node_modules/redux";
 import { composeWithDevTools } from "../node_modules/redux-devtools-extension";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
@@ -16,7 +17,9 @@ import registerServiceWorker from './registerServiceWorker';
 const logger = createLogger();
 
 const rootReducers = combineReducers({
-  RandomQuote
+  RandomQuote,
+  Markdown,
+  Zoom,
 });
 
 const store = createStore(

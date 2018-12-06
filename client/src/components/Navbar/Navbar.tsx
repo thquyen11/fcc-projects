@@ -17,7 +17,7 @@ export class Navbar extends React.Component{
                 </a>
                 <div className="dropdown-menu">
                   <Link to="/fcc-projects/quote-machine"><a className="dropdown-item" href="">Random Quote Machine</a></Link>
-                  <Link to="/fcc-projects/quote-machine"><a className="dropdown-item" href="">TBA</a></Link>
+                  <Link to="/fcc-projects/markdown-previewer"><a className="dropdown-item" href="">Markdown Previewer</a></Link>
                   <Link to="/fcc-projects/quote-machine"><a className="dropdown-item" href="">TBA</a></Link>
                 </div>
               </li>

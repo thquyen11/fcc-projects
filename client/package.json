@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/marked": "^0.5.0",
     "clarifai": "^2.8.0",
+    "marked": "^0.5.2",
     "npm": "^6.4.1",
     "popper.js": "^1.14.4",
     "react": "^16.4.1",
