@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { translateMarkdown, resetState, resizeEditor, resizePreview } from "./aMarkdownPreviewer";
-import "./cMarkdownPreviewer.css";
+import "./cMarkdownPreviewer.scss";
 
 
 
@@ -50,14 +50,14 @@ class MarkdownPreviewer extends React.Component<Props>{
         const classes: any[] = editorMaximized ? 
                                 ["editorWrap maximized",
                                 "previewWrap hide",
-                                "fa fa-compress"]
+                                "fa fa-compress ml-auto"]
                                 : previewMaximized?
                                     ["editorWrap hide",
                                     "previewWrap maximized",
-                                    "fa fa-compress"]
+                                    "fa fa-compress ml-auto"]
                                 : ["editorWrap",
                                     "previewWrap",
-                                    "fa fa-arrows-alt"]
+                                    "fa fa-arrows-alt ml-auto"]
             
         return(
             <div className="container">
@@ -77,9 +77,7 @@ class MarkdownPreviewer extends React.Component<Props>{
                             <i className={classes[2]} onClick={resizePreview}></i>
                         </div>
                     </div>
-                    <div id="preview">
-                        <p>{markedText}</p>
-                    </div>
+                    <textarea id="preview" value={markedText} disabled></textarea>
                 </div>
             </div>
         )

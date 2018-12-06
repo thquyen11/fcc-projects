@@ -22,6 +22,8 @@ export const resetState = ()=>{
         payload: {
             bareText: "",
             markedText: "",
+            editorMaximized: false,
+            previewMaximized: false,
         }
     }
 }

@@ -29,9 +29,11 @@ export const Zoom = (state= initialZoom, action: any={})=>{
 
     switch(action.type){
         case RESIZE_EDITOR:
-            return Object.assign({}, state, {editorMaximized: !editorMaximized})
+            return Object.assign({}, state, { editorMaximized: !editorMaximized })
         case RESIZE_PREVIEW:
-            return Object.assign({}, state, {previewMaximized: !previewMaximized})
+            return Object.assign({}, state, { previewMaximized: !previewMaximized })
+        case RESET_STATE:
+            return Object.assign({}, state, { editorMaximized: action.payload.editorMaximized, previewMaximized: action.payload.previewMaximized })
         default:
             return state;
     }
