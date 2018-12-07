@@ -1,0 +1,21 @@
+*{
+    border: 1px solid black;
+}
+
+#page-wrapper{
+    background-color: blue;
+    min-height: 100vh;
+}
+
+#equals{
+    min-height: 100%;
+}
+
+#test{
+    padding: 0px 0px;
+}
+
+button{
+    height: 4rem;
+    top: 10vh;
+}
