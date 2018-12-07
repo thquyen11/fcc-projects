@@ -1,19 +1,20 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import * as marked from "marked";
 import { translateMarkdown, resetState, resizeEditor, resizePreview } from "./aMarkdownPreviewer";
 import "./cMarkdownPreviewer.scss";
 
 
 
 interface StateProps{
-    markedText: string,
+    bareText: string,
     editorMaximized: boolean,
     previewMaximized: boolean,
 }
 
 const mapStateToProps = (state: any): StateProps =>{
     return {
-        markedText: state.Markdown.markedText,
+        bareText: state.Markdown.bareText,
         editorMaximized: state.Zoom.editorMaximized,
         previewMaximized: state.Zoom.previewMaximized,
     }
@@ -46,7 +47,7 @@ class MarkdownPreviewer extends React.Component<Props>{
 
     render(){
         const rows:number = 5;
-        const { markedText, onEditorChange, editorMaximized, previewMaximized, resizeEditor, resizePreview } = this.props;
+        const { bareText, onEditorChange, editorMaximized, previewMaximized, resizeEditor, resizePreview } = this.props;
         const classes: any[] = editorMaximized ? 
                                 ["editorWrap maximized",
                                 "previewWrap hide",
@@ -58,6 +59,11 @@ class MarkdownPreviewer extends React.Component<Props>{
                                 : ["editorWrap",
                                     "previewWrap",
                                     "fa fa-arrows-alt ml-auto"]
+        
+        const createMarkup = (): {__html: string} =>{
+            console.log(bareText);
+            return { __html: marked(bareText) }
+        }
             
         return(
             <div className="container">
@@ -68,7 +74,7 @@ class MarkdownPreviewer extends React.Component<Props>{
                             <i className={classes[2]} onClick={resizeEditor}></i>
                         </div>
                     </div>
-                    <textarea id="editor" rows={rows} onChange={onEditorChange}></textarea>
+                    <textarea id="editor" className="textarea" rows={rows} onChange={onEditorChange} value={bareText}></textarea>
                 </div> 
                 <div className={classes[1]}>
                     <div className="container">
@@ -77,7 +83,7 @@ class MarkdownPreviewer extends React.Component<Props>{
                             <i className={classes[2]} onClick={resizePreview}></i>
                         </div>
                     </div>
-                    <textarea id="preview" value={markedText} disabled></textarea>
+                    <div id="preview" className="textarea" dangerouslySetInnerHTML={createMarkup()}></div>
                 </div>
             </div>
         )

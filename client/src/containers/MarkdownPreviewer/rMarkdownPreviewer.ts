@@ -4,15 +4,14 @@ import { TRANSLATE_MARKDOWN, RESET_STATE, RESIZE_EDITOR, RESIZE_PREVIEW } from "
 
 const initialMarkdown = {
     bareText: "",
-    markedText: "",
 }
 
 export const Markdown = (state= initialMarkdown, action:any = {}) =>{
     switch(action.type){
         case TRANSLATE_MARKDOWN:
-            return Object.assign({}, state, {bareText: action.payload.bareText, markedText: action.payload.markedText})
+            return Object.assign({}, state, {bareText: action.payload.bareText, })
         case RESET_STATE:
-            return Object.assign({}, state, {bareText: action.payload.bareText, markedText: action.payload.markedText})  
+            return Object.assign({}, state, {bareText: action.payload.bareText, })  
         default:
             return state;
     }
