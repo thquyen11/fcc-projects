@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="prototype.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container" id="page-wrapper-clock">
+        <div class="container col-md-9">
+            <div class="text-center"><h1>Pomodoro Clock</h1></div>
+            <div class="row">
+                <div class="container col-6 text-center">
+                    <h3 id="break-label">Break Length</h3>
+                    <div class="row justify-content-center">
+                            <i class="fas fa-arrow-up" id="break-increment"></i>
+                            <h4 id="break-length">5</h4>
+                            <i class="fas fa-arrow-down" id="break-decrement"></i>
+                    </div>
+                </div>
+                <div class="container col-6 text-center">
+                    <h3 id="session-label">Session Length</h3>
+                    <div class="row justify-content-center">
+                            <i class="fas fa-arrow-up" id="session-increment"></i>
+                            <h4 id="session-length">25</h4>
+                            <i class="fas fa-arrow-down" id="session-decrement"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="container col-9">
+                <div class="text-center">
+                    <h4 id="timer-label">Session</h4>
+                    <div class="row justify-content-center" id="time-left">
+                        25:00
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <span id="start_stop"><i class="fas fa-play"></i><i class="fas fa-pause"></i></span>
+                <i id="reset" class="fas fa-undo-alt ml-4"></i>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>
