@@ -1,37 +1,50 @@
-import { CALCULATOR_INSERT_NUMBER, CALCULATOR_INSERT_OPERATOR, CALCULATOR_INSERT_EQUALS
-    , CALCULATOR_INSERT_AC, CALCULATOR_INSERT_C, CALCULATOR_INSERT_ERROR } from "./constans";
+import { CALCULATOR_INSERT_NUMBER, CALCULATOR_INSERT_EQUALS, CALCULATOR_INSERT_UNDO
+    , CALCULATOR_INSERT_C, CALCULATOR_INSERT_ERROR } from "./constans";
 
 
 
 const initialCalculator={
-    calculated: 0 as number,
-    toCalculate: [] as any[],
-    insertingNumber: "0",
+    display: "0" as string,
+    toCalculate: "" as string,
 }
 
 export const Calculator = (state=initialCalculator, action:any={})=>{
 
     switch(action.type){
         case CALCULATOR_INSERT_NUMBER:
-            return Object.assign({}, state, { insertingNumber: state.insertingNumber + action.payload })
+            //remove unexpected first zero number
+            if(state.display[0]==="0"){
+                state.display = state.display.slice(1);
+            }
+            if(state.toCalculate[0]==="0"){
+                state.toCalculate = state.toCalculate.slice(1);
+            }
 
-        case CALCULATOR_INSERT_OPERATOR:
-            const elementToAdd:any[] = state.toCalculate;
-            elementToAdd.push(Number(state.insertingNumber));
-            elementToAdd.push(action.payload);
-            return Object.assign({}, state, { toCalculate: [...elementToAdd], insertingNumber: "" })
+            if(action.payload==="+"||action.payload==="-"||action.payload==="*"||action.payload==="/"){
+                const lastChar = state.toCalculate.charAt(state.toCalculate.length-1);
+                if(lastChar==="+"||lastChar==="-"||lastChar==="*"||lastChar==="/"){
+                    state.toCalculate = state.toCalculate.slice(0,state.toCalculate.length-1);
+                }
+                return Object.assign({}, state, { display: action.payload, toCalculate: state.toCalculate + action.payload })
+            } else if(action.payload==="."&&state.display.indexOf(action.payload)!==-1){
+                return state;
+            } else{
+                return Object.assign({}, state, { display: state.display+action.payload, toCalculate: state.toCalculate + action.payload })
+            }
 
         case CALCULATOR_INSERT_EQUALS:
-            return Object.assign({}, state, { calculated: action.payload.calculated, toCalculate: action.payload.toCalculate, insertingNumber: action.payload.insertingNumber })
-
-        case CALCULATOR_INSERT_AC:
-            return Object.assign({}, state, { calculated: 0, toCalculate: [], insertingNumber: "0" })
-
+                const result = eval(state.toCalculate).toString();
+                return Object.assign({}, state, { display: result, toCalculate: result })
+            
         case CALCULATOR_INSERT_C:
-            return Object.assign({}, state, { insertingNumber: "" })
+            return Object.assign({}, state, { display: "0", toCalculate: "" } )
+
+        case CALCULATOR_INSERT_UNDO:
+            const toCalculateUndo = state.toCalculate.slice(0, state.toCalculate.length-1);
+            return Object.assign({}, state, { toCalculate: toCalculateUndo })
 
         case CALCULATOR_INSERT_ERROR:
-            return Object.assign({}, initialCalculator)
+            return state;
 
         default:
             return state;
