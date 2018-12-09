@@ -5,6 +5,7 @@ import { createLogger } from "redux-logger";
 import thunkMiddleware from "../node_modules/redux-thunk";
 import { RandomQuote } from "./containers/QuoteMachine/rQuoteMachine";
 import { Markdown, Zoom } from "./containers/MarkdownPreviewer/rMarkdownPreviewer";
+import { Calculator } from "./containers/Calculator/rCalculator";
 import {createStore,applyMiddleware,combineReducers} from "../node_modules/redux";
 import { composeWithDevTools } from "../node_modules/redux-devtools-extension";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
@@ -20,6 +21,7 @@ const rootReducers = combineReducers({
   RandomQuote,
   Markdown,
   Zoom,
+  Calculator,
 });
 
 const store = createStore(
