@@ -3,13 +3,14 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from "react-redux";
 import { createLogger } from "redux-logger";
 import thunkMiddleware from "../node_modules/redux-thunk";
-import { RandomQuote } from "./containers/QuoteMachine/rQuoteMachine";
-import { Markdown, Zoom } from "./containers/MarkdownPreviewer/rMarkdownPreviewer";
-import { Calculator } from "./containers/Calculator/rCalculator";
 import {createStore,applyMiddleware,combineReducers} from "../node_modules/redux";
 import { composeWithDevTools } from "../node_modules/redux-devtools-extension";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import {FCCProjects} from './containers/FCCProjects/cFCCProjects';
+import { RandomQuote } from "./containers/QuoteMachine/rQuoteMachine";
+import { Markdown, Zoom } from "./containers/MarkdownPreviewer/rMarkdownPreviewer";
+import { Calculator } from "./containers/Calculator/rCalculator";
+import { Clock } from "./containers/Clock/rClock";
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
@@ -22,6 +23,7 @@ const rootReducers = combineReducers({
   Markdown,
   Zoom,
   Calculator,
+  Clock,
 });
 
 const store = createStore(

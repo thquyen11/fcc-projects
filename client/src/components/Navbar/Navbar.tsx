@@ -19,6 +19,7 @@ export class Navbar extends React.Component{
                   <Link to="/fcc-projects/quote-machine"><a className="dropdown-item" href="">Random Quote Machine</a></Link>
                   <Link to="/fcc-projects/markdown-previewer"><a className="dropdown-item" href="">Markdown Previewer</a></Link>
                   <Link to="/fcc-projects/javascript-calculator"><a className="dropdown-item" href="">Calculator</a></Link>
+                  <Link to="/fcc-projects/pomodoro-clock"><a className="dropdown-item" href="">Promodo Clock</a></Link>
                 </div>
               </li>
             </ul>

@@ -2,8 +2,9 @@ import * as React from "react";
 import { Link, BrowserRouter, Switch, Route } from "react-router-dom";
 import QuoteMachine from "../QuoteMachine/cQuoteMachine";
 import MarkdownPreviewer from "../MarkdownPreviewer/cMarkdownPreviewer";
-import { Navbar } from "../../components/Navbar/Navbar";
 import Calculator from "../Calculator/cCalculator";
+import { Navbar } from "../../components/Navbar/Navbar";
+import Clock from "../Clock/cClock";
 
 
 
@@ -45,7 +46,7 @@ export class FCCProjects extends React.Component {
               <Route exact path="/fcc-projects/markdown-previewer" component={MarkdownPreviewer} />
               {/* <Route exact path="/fcc-projects/drum-machine" component={DrumMachine} /> */}
               <Route exact path="/fcc-projects/javascript-calculator" component={Calculator} />
-              {/* <Route exact path="/fcc-projects/pomodoro-clock" component={PomodoroClock} /> */}
+              <Route exact path="/fcc-projects/pomodoro-clock" component={Clock} />
             </div>
           </div>
         </Switch>
