@@ -3,6 +3,7 @@ import { Link, BrowserRouter, Switch, Route } from "react-router-dom";
 import QuoteMachine from "../QuoteMachine/cQuoteMachine";
 import MarkdownPreviewer from "../MarkdownPreviewer/cMarkdownPreviewer";
 import Calculator from "../Calculator/cCalculator";
+import Drum from "../Drum/cDrum";
 import { Navbar } from "../../components/Navbar/Navbar";
 import Clock from "../Clock/cClock";
 
@@ -44,7 +45,7 @@ export class FCCProjects extends React.Component {
             <div className="container">
               <Route exact path="/fcc-projects/quote-machine" component={(QuoteMachine)} />
               <Route exact path="/fcc-projects/markdown-previewer" component={MarkdownPreviewer} />
-              {/* <Route exact path="/fcc-projects/drum-machine" component={DrumMachine} /> */}
+              <Route exact path="/fcc-projects/drum-machine" component={Drum} />
               <Route exact path="/fcc-projects/javascript-calculator" component={Calculator} />
               <Route exact path="/fcc-projects/pomodoro-clock" component={Clock} />
             </div>
