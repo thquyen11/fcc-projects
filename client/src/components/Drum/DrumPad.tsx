@@ -13,22 +13,21 @@ interface IDrumPad{
 export class DrumPad extends React.Component<IDrumPad>{
     constructor(props:IDrumPad){
         super(props);
-        this.playSound = this.playSound.bind(this);
     }
 
-    playSound(node:any){
+    private playSound=(node:any)=>{
         const sound = node.childNodes[1];
         sound.currentTime = 0;
         sound.play();
     }
     
-    playSoundOnClick(e:any){
+    private playSoundOnClick=(e:any)=>{
         const node = e.target;
         this.playSound(node);
         this.props.updateClipId(this.props.clipId);
     }
     
-    playSoundWhenKeyPress(e:any){
+    private playSoundWhenKeyPress=(e:any)=>{
         if(e.keyCode===this.props.keyCode){
             const node = document.getElementById(this.props.id);
             this.playSound(node);
@@ -48,7 +47,7 @@ export class DrumPad extends React.Component<IDrumPad>{
         return(
             <div id={this.props.id} className="drum-pad" onClick={this.playSoundOnClick} style={{ width: "6rem", height: "6rem", margin: "5px 5px" }}>
                 <h2>{this.props.id}</h2>
-                <audio src={this.props.audioSrc} className="clip"></audio>
+                <audio id={this.props.id}  src={this.props.audioSrc} className="clip"></audio>
             </div>
         )
     }
