@@ -9,6 +9,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import {FCCProjects} from './containers/FCCProjects/cFCCProjects';
 import { RandomQuote } from "./containers/QuoteMachine/rQuoteMachine";
 import { Markdown, Zoom } from "./containers/MarkdownPreviewer/rMarkdownPreviewer";
+import { Drum } from "./containers/Drum/rDrum";
 import { Calculator } from "./containers/Calculator/rCalculator";
 import { Clock } from "./containers/Clock/rClock";
 import './index.css';
@@ -22,6 +23,7 @@ const rootReducers = combineReducers({
   RandomQuote,
   Markdown,
   Zoom,
+  Drum,
   Calculator,
   Clock,
 });
