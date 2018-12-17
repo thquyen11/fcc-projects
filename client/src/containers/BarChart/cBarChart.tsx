@@ -18,6 +18,7 @@ export class BarChart extends React.Component {
                 const w = 1000;
                 const h = 500;
                 const padding=50;
+                const rect_w = (w-2*padding)/dataset.length;
 
                 //Scale X Y
                 const arrayYear = dataset.map((data:any[],index:number)=> {
@@ -26,50 +27,52 @@ export class BarChart extends React.Component {
                 }).sort((a:number,b:number)=>(a-b));
                 const minYear = arrayYear[0];
                 const maxYear = arrayYear[arrayYear.length-1];
-                // const xScale = d3.scaleLinear().domain([minYear, maxYear]).range([padding, w-padding]);
                 const xScale = d3.scaleTime().domain([minYear, maxYear]).range([padding, w-padding]);
 
                 const arrayGDP = dataset.map((data:any[],index:number)=> data[1]).sort((a:number, b:number)=>(a-b));
-                // const minGDP = arrayGDP[0];
                 const maxGDP = arrayGDP[arrayGDP.length-1];
                 const yScale = d3.scaleLinear().domain([0, maxGDP]).range([h-padding, padding]);
 
+                //tooltip
+                const tooltip:any = document.createElement("div");
+                        tooltip.setAttribute("id", "tooltip");
+                        tooltip.setAttribute("class", "container");
+
                 //Draw rect
-                const svg = d3.select("#page-wrapper-barchart").append("svg").attr("width", w).attr("height", h).attr("class", "container mx-auto");
+                const svg = d3.select("#page-wrapper-barchart").append("svg").attr("width", w+"px").attr("height", h+"px").attr("class", "container mx-auto");
                 svg.selectAll("rect").data(dataset).enter()
                     .append("rect")
-                        .attr("x", d=> {
+                        .attr("x", (d:any)=> {
                             const date = new Date(d[0]);
                             return xScale(date.getTime());
-                        }).attr("y", d=> {
+                        }).attr("y", (d:any)=> {
                             return yScale(d[1])
-                        }).attr("width", 5)
-                        .attr("height", d=> h-padding - yScale(d[1]))
-                        .attr("fill", "#33adff")
+                        }).attr("width", rect_w+"px")
+                        .attr("height", (d:any) => h-padding - yScale(d[1]))
                         .attr("class", "bar")
+                    .on("mouseover", (d:any, i:number)=>{
+                        const yearmonth= d[0].slice(0,7);
+                        const tooltipContent:string= `<div class="row justify-content-center">` + yearmonth +`</div><div class="row justify-content-center">$`+d[1]+ " Billions</div>";
+
+                        tooltip.setAttribute("style", "position: absolute; visibility: visible; top: 350px; left: "+(i*rect_w+padding+70)+"px");
+                        tooltip.innerHTML= tooltipContent;
+                        
+                        document.querySelector("#page-wrapper-barchart")!.appendChild(tooltip);
+                    })
+                    .on("mouseout", (d:any, i:number)=>{
+                        tooltip.setAttribute("style", "visibility: hidden");
+                    })
                 
                 //Title, axises
-                svg.append("text").attr("x", w/2).attr("y", 20).text("UNITED STATES GDP");
-                svg.append("text").attr("x", padding+10).attr("y", padding + 150).text("Gross Dosmetic Product");
+                svg.append("text").attr("x", w/3).attr("y", 50).attr("style", "font-size: 36px").text("UNITED STATES GDP");
+                svg.append("text").attr("transform", "rotate(90deg)").attr("x", padding+10).attr("y", padding + 150).text("Gross Dosmetic Product");
 
                 const xAxis: any = d3.axisBottom(xScale);
                 const yAxis: any = d3.axisLeft(yScale);
                 svg.append("g").call(xAxis).attr("id", "x-axis").attr("transform", "translate(0 "+(h-padding)+")");
                 svg.append("g").call(yAxis).attr("id", "y-axis").attr('transform', "translate("+padding+", 0)");
                 
-                //tooltip
-                document.querySelector("svg")!.addEventListener("mouseover", (event)=>{
-                    if(event.target.nodeName==="RECT"){
-                        
-                    }
-                });
-                   
-               
-                // d3.select("#page-wrapper-barchart").append("div")
-                //     .attr("id","tooltip")
-                //     .
-                //     .html("<h3>tooltip</h3>")
-                        
+                
             })
             .catch(err => console.log(err))
     }
