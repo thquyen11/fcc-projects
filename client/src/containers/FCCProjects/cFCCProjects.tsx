@@ -4,7 +4,8 @@ import QuoteMachine from "../QuoteMachine/cQuoteMachine";
 import MarkdownPreviewer from "../MarkdownPreviewer/cMarkdownPreviewer";
 import Calculator from "../Calculator/cCalculator";
 import Drum from "../Drum/cDrum";
-import {BarChart} from "../BarChart/cBarChart";
+import {BarChart} from "../D3-BarChart/cBarChart";
+import {ScatterPlot} from "../D3-ScatterPlot/cScatterPlot";
 import { Navbar } from "../../components/Navbar/Navbar";
 import Clock from "../Clock/cClock";
 
@@ -23,6 +24,7 @@ export class FCCProjects extends React.Component {
       { id: "javascript-calculator", name: "Javascript Calculator", picture: "" },
       { id: "pomodoro-clock", name: "Pomodoro Clock", picture: "" },
       { id: "bar-chart", name: "Bar Chart", picture: "" },
+      { id: "scatter-plot", name: "Scatter Plot", picture: "" },
     ];
 
     return (
@@ -51,6 +53,7 @@ export class FCCProjects extends React.Component {
               <Route exact path="/fcc-projects/javascript-calculator" component={Calculator} />
               <Route exact path="/fcc-projects/pomodoro-clock" component={Clock} />
               <Route exact path="/fcc-projects/bar-chart" component={BarChart} />
+              <Route exact path="/fcc-projects/scatter-plot" component={ScatterPlot} />
             </div>
           </div>
         </Switch>
