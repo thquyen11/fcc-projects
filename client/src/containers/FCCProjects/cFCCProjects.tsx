@@ -6,6 +6,7 @@ import Calculator from "../Calculator/cCalculator";
 import Drum from "../Drum/cDrum";
 import {BarChart} from "../D3-BarChart/cBarChart";
 import {ScatterPlot} from "../D3-ScatterPlot/cScatterPlot";
+import {HeatMap} from "../D3-HeatMap/cHeatMap";
 import { Navbar } from "../../components/Navbar/Navbar";
 import Clock from "../Clock/cClock";
 
@@ -25,6 +26,7 @@ export class FCCProjects extends React.Component {
       { id: "pomodoro-clock", name: "Pomodoro Clock", picture: "" },
       { id: "bar-chart", name: "Bar Chart", picture: "" },
       { id: "scatter-plot", name: "Scatter Plot", picture: "" },
+      { id: "heat-map", name: "Heat Map", picture: "" },
     ];
 
     return (
@@ -54,6 +56,7 @@ export class FCCProjects extends React.Component {
               <Route exact path="/fcc-projects/pomodoro-clock" component={Clock} />
               <Route exact path="/fcc-projects/bar-chart" component={BarChart} />
               <Route exact path="/fcc-projects/scatter-plot" component={ScatterPlot} />
+              <Route exact path="/fcc-projects/heat-map" component={HeatMap} />
             </div>
           </div>
         </Switch>
