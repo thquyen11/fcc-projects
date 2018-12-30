@@ -20,7 +20,7 @@ export class Choropleth extends React.Component{
             right: 20 as number,
         }
 
-        const path:any = d3.geoPath();
+        
         const colorBrew:string[] =['#ffffd9','#edf8b1','#c7e9b4','#7fcdbb','#41b6c4','#1d91c0','#225ea8','#253494','#081d58'];
 
         const svg:any = d3.select("#visHolder").append("svg")
@@ -89,6 +89,7 @@ export class Choropleth extends React.Component{
                         .call(xAsis)
                         
                 //draw path
+                const path:any = d3.geoPath();
                 const geoCollection:any = topojson.feature(countyFile, countyFile.objects.counties);
                 group.selectAll("path").data(geoCollection.features).enter()
                     .append("path")
