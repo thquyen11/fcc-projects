@@ -7,8 +7,10 @@ import Drum from "../Drum/cDrum";
 import {BarChart} from "../D3-BarChart/cBarChart";
 import {ScatterPlot} from "../D3-ScatterPlot/cScatterPlot";
 import {HeatMap} from "../D3-HeatMap/cHeatMap";
+import { Choropleth } from 'containers/D3-ChoroplethMap/cChoropleth';
 import { Navbar } from "../../components/Navbar/Navbar";
 import Clock from "../Clock/cClock";
+
 
 
 
@@ -27,6 +29,7 @@ export class FCCProjects extends React.Component {
       { id: "bar-chart", name: "Bar Chart", picture: "" },
       { id: "scatter-plot", name: "Scatter Plot", picture: "" },
       { id: "heat-map", name: "Heat Map", picture: "" },
+      { id: "choro-map", name: "Choro Map", picture: "" },
     ];
 
     return (
@@ -57,6 +60,7 @@ export class FCCProjects extends React.Component {
               <Route exact path="/fcc-projects/bar-chart" component={BarChart} />
               <Route exact path="/fcc-projects/scatter-plot" component={ScatterPlot} />
               <Route exact path="/fcc-projects/heat-map" component={HeatMap} />
+              <Route exact path="/fcc-projects/choro-map" component={Choropleth} />
             </div>
           </div>
         </Switch>
