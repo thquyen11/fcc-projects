@@ -29,6 +29,7 @@ export class FCCProjects extends React.Component {
       { id: "bar-chart", name: "Bar Chart", picture: "" },
       { id: "scatter-plot", name: "Scatter Plot", picture: "" },
       { id: "heat-map", name: "Heat Map", picture: "" },
+      { id: "choro-map", name: "Choro Map", picture: "" },
     ];
 
     return (
