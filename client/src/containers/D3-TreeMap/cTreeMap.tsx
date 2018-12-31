@@ -10,24 +10,23 @@ export class TreeMap extends React.Component{
     }
 
     componentDidMount(){
-        const width:number=800;
+        const width:number=1050;
         const height:number=600;
         const margin:any={
-            top: 20 as number,
-            bottom: 40 as number,
-            left: 40 as number,
-            right: 20 as number,
+            top: 10 as number,
+            bottom: 10 as number,
+            left: 0 as number,
+            right: 0 as number,
         }
 
         const svg:any = d3.select("#visHolder").append("svg")
             .attr("width", width+margin.left + margin.right)
-            .attr("height", height+margin.top + margin.bottom)
+            .attr("height", height+margin.top + margin.bottom);
         
         const group:any = svg.append("g")
             .attr("width", width)
             .attr("height", height)
-            .attr("transform", "translate("+margin.left+" "+margin.top+")")
-        console.log(group);
+            .attr("transform", "translate("+margin.left+" "+margin.top+")");
 
         (async ()=>{
             try{
@@ -36,10 +35,72 @@ export class TreeMap extends React.Component{
                 const treemap:any = d3.treemap()
                     .size([width, height])
                     .paddingInner(1);
-            
-                const root:any = d3.hierarchy(gameFile);
+                
+                // root is an object represent the tree. TreeMap only draw the tree-leaves retreiving via root.leaves()
+                // input gameFile to hierarchy() need to follow format { attribue: x ; children: [] }
+                // d3.hierarchy traverse gameFile until the leave nodes through attribute children:[]
+                // sum() specify the value will be illustrated on TreeMap. In function sum(d:any => {}), d is the leave node
+                // sort() leave nodes to grop them by parent nodes
+                const root:any = d3.hierarchy(gameFile)
+                    .sum((d:any)=> d.value)
+                    .sort((a:any, b:any) => b.height-a.height || b.value - a.value);
                 treemap(root);
-                console.log(treemap);
+
+                //draw treemap
+                console.log(root.leaves());
+                const cell:any = group.selectAll("g").data(root.leaves()).enter()
+                    .append("g")
+                        .attr("transform", function (d:any) {return "translate(" + d.x0 + "," + d.y0 + ")";});
+
+                // Tile
+                const parent: string[]= Array.from(new Set(root.leaves().map((p:any)=> p.parent.data.name)));
+                const colorBrew:string[] = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080'];
+                const tooltip:any = d3.select("body").append("div")
+                    .attr("id", "tooltip")
+
+                
+                cell.append("rect")
+                    .attr("class", "tile")
+                    .attr("data-name", (d:any)=> d.data.name)
+                    .attr("data-category", (d:any)=> d.data.category)
+                    .attr("data-value", (d:any)=> d.data.value)
+                    .attr("width", (d:any)=> (d.x1-d.x0))
+                    .attr("height", (d:any)=> (d.y1-d.y0))
+                    .style("fill", (d:any)=> this.findParentColor(d.parent.data.name, parent, colorBrew))
+                    .on("mousemove", (d:any)=>{
+                        tooltip
+                            .attr("data-value", d.data.value)
+                            .style("left", (d3.event.pageX+20)+"px" )
+                            .style("top", (d3.event.pageY)+"px" )
+                            .html(d.data.name+"<br>"+d.data.category+"<br>"+d.value)
+                            .style("opacity", 0.9)
+                    })
+                    .on("mouseout", ()=>{
+                        tooltip
+                            .style("opacity", 0)
+                    })
+
+                // Tile's text
+                cell.append("text")
+                    .attr("x", 5)
+                    .attr("y", 15)
+                    .text((d:any)=> d.data.name)
+
+                // Legend
+                const legend = d3.select("#visHolder").append("div")
+                    .attr("id", "legend")
+                    .attr("class", "row col-md-9 justify-content-center")
+                
+                legend.selectAll("rect").data(parent).enter()
+                    .append("rect") //this rect is redundant. I put it here in order to pass FCC's test case ^^
+                        .attr("class", "legend-item")
+                        .append("div")
+                            .attr("class", "row justify-content-left")
+                            .style("width", "80px")
+                            .style("margin", "5px 30px")
+                            .html((p:any)=> {
+                                return ("<div style=\"width: 15px; height: 15px; background-color:"+this.findParentColor(p, parent, colorBrew)+";\"></div>"+p)
+                            })
             }
             catch(err){
                 console.log(err);
@@ -56,4 +117,14 @@ export class TreeMap extends React.Component{
             </div>
         )
     }
+
+    private findParentColor(p:any, parent: string[], colorBrew: string[]): string {
+            const index: number = parent.indexOf(p);
+            if (index > -1) {
+                return colorBrew[index];
+            }
+            else {
+                return "white";
+            }
+        };
 }
