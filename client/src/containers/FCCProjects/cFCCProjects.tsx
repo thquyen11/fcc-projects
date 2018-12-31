@@ -10,6 +10,7 @@ import {HeatMap} from "../D3-HeatMap/cHeatMap";
 import { Choropleth } from 'containers/D3-ChoroplethMap/cChoropleth';
 import { Navbar } from "../../components/Navbar/Navbar";
 import Clock from "../Clock/cClock";
+import { TreeMap } from 'containers/D3-TreeMap/cTreeMap';
 
 
 
@@ -30,6 +31,7 @@ export class FCCProjects extends React.Component {
       { id: "scatter-plot", name: "Scatter Plot", picture: "" },
       { id: "heat-map", name: "Heat Map", picture: "" },
       { id: "choro-map", name: "Choro Map", picture: "" },
+      { id: "tree-map", name: "Tree Map", picture: "" },
     ];
 
     return (
@@ -61,6 +63,7 @@ export class FCCProjects extends React.Component {
               <Route exact path="/fcc-projects/scatter-plot" component={ScatterPlot} />
               <Route exact path="/fcc-projects/heat-map" component={HeatMap} />
               <Route exact path="/fcc-projects/choro-map" component={Choropleth} />
+              <Route exact path="/fcc-projects/tree-map" component={TreeMap} />
             </div>
           </div>
         </Switch>
