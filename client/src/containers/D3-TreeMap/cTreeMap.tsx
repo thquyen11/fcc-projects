@@ -36,18 +36,17 @@ export class TreeMap extends React.Component{
                     .size([width, height])
                     .paddingInner(1);
                 
-                // root is an object represent the tree. TreeMap only draw the tree-leaves retreiving via root.leaves()
-                // input gameFile to hierarchy() need to follow format { attribue: x ; children: [] }
+                // root is an object represent the tree. TreeMap only draw the tree-leaves which retrieve from root.leaves()
+                // input file gameFile to hierarchy() need to follow the format { attribue: x ; children: [] }
                 // d3.hierarchy traverse gameFile until the leave nodes through attribute children:[]
-                // sum() specify the value will be illustrated on TreeMap. In function sum(d:any => {}), d is the leave node
-                // sort() leave nodes to grop them by parent nodes
+                // CAUTION: following sum() is working on tree-leaves by default
+                // sum() specify the value will be illustrated on TreeMap. Inside function sum(d:any => {}), d is the leave node
+                // sort() by height desc + value desc. All childnodes are grouped by their parent by default
                 const root:any = d3.hierarchy(gameFile)
                     .sum((d:any)=> d.value)
-                    .sort((a:any, b:any) => b.height-a.height || b.value - a.value);
-                treemap(root);
+                    .sort((a:any, b:any) => b.height-a.height || b.value - a.value); 
 
                 //draw treemap
-                console.log(root.leaves());
                 const cell:any = group.selectAll("g").data(root.leaves()).enter()
                     .append("g")
                         .attr("transform", function (d:any) {return "translate(" + d.x0 + "," + d.y0 + ")";});
@@ -55,6 +54,7 @@ export class TreeMap extends React.Component{
                 // Tile
                 const parent: string[]= Array.from(new Set(root.leaves().map((p:any)=> p.parent.data.name)));
                 const colorBrew:string[] = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080'];
+                
                 const tooltip:any = d3.select("body").append("div")
                     .attr("id", "tooltip")
 
