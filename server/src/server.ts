@@ -15,6 +15,7 @@ app.get("/", (req:Request, res:Response)=>{
     res.status(200).json("GET request OK");
 })
 
+//FCC TIMESTMAP project
 app.get("/api/timestamp/:date_string", (req:Request, res:Response)=>{
     const { date_string } = req.params;
 
@@ -41,6 +42,17 @@ app.get("/api/timestamp/:date_string", (req:Request, res:Response)=>{
 
         res.status(200).json(payload);
     }
+})
+
+//FCC HEADER PARSER project
+app.get("/api/whoami", (req:Request, res:Response)=>{
+    console.log(req);
+    const payload:any={
+        "ipaddress": req["Remote Address"],
+        "language": req["Accept-Language"],
+        "software": req["User-Agent"],
+    }
+    res.status(200).json(payload);
 })
 
 
