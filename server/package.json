@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.ts",
+  "dependencies": {
+    "@types/express": "^4.16.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "nodemon": "^1.18.9",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.2"
+  },
+  "devDependencies": {
+    "dotenv": "^6.2.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "nodemon ./src/server.ts",
+    "start": "ts-node ./src/server.ts",
+    "prod": "npm run build && npm run start"
+  },
+  "author": "Quyen Ho",
+  "license": "ISC"
+}
