@@ -1,15 +1,22 @@
 // import app from "./app";
 import * as express from "express";
 import { Request, Response } from "express";
+import * as bodyParser from "body-parser";
 require('dotenv').config();
 require('ts-node').register();
 
 
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.text());
 
 app.listen(process.env.PORT, ()=>{
     console.log("Server running on port ", process.env.PORT);
 })
+
+const db:any={
+    shortenURL:[],
+}
 
 app.get("/", (req:Request, res:Response)=>{
     console.log(req);
@@ -53,6 +60,41 @@ app.get("/api/whoami", (req:Request, res:Response)=>{
         "software": req.get("User-Agent"),
     }
     res.status(200).json(payload);
+})
+
+//FCC Shorten URL project
+app.post("/api/shorturl/new", (req:Request, res:Response)=>{
+    const url:string = req.body.replace(/\r\n|\r|\n/gm, "");
+    const regex:any = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm;
+    if(url.match(regex)){
+        db.shortenURL.push(url);
+        res.status(200).json({
+            "original_url": url,
+            "short_url": (db.shortenURL.length-1),
+        })
+    } else{
+        res.status(400).json(()=>{
+            return{
+                "error": "invalid URL",
+            }
+        })
+    }
+})
+
+app.get("/api/shorturl/:shortURL", (req:Request, res:Response)=>{
+    const { shortURL } = req.params;
+    const shortUrl:number = parseInt(shortURL,10);
+
+    if(shortUrl>(db.shortenURL.length-1)){
+        res.status(400).json(()=>{
+            return{
+                "error": "invalid URL",
+            }
+        })
+    } else{
+        const originalUrl:string = db.shortenURL[shortUrl];
+        res.redirect(originalUrl);
+    }
 })
 
 
