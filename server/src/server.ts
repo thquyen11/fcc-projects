@@ -3,7 +3,6 @@ import * as express from "express";
 import { Request, Response } from "express";
 import * as bodyParser from "body-parser";
 require('dotenv').config();
-require('ts-node').register();
 
 
 const app = express();
@@ -19,7 +18,6 @@ const db:any={
 }
 
 app.get("/", (req:Request, res:Response)=>{
-    console.log(req);
     res.status(200).json("Homepage");
 })
 
