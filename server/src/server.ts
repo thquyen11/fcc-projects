@@ -3,6 +3,7 @@ import * as express from "express";
 import { Request, Response } from "express";
 import * as bodyParser from "body-parser";
 import * as knex from "knex";
+import { registerNewUser, addNewExercise } from "./controllers/register";
 require('dotenv').config();
 require('ts-node').register();
 
@@ -23,10 +24,12 @@ const db:any = knex({
     client: 'pg',
     connection:{
         host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
         database: process.env.DB,
         user: process.env.DB_USER,
         password: process.env.DB_USERPASS,
-    }
+    },
+    debug: true,
 })
 
 app.get("/", (req:Request, res:Response)=>{
@@ -109,12 +112,35 @@ app.get("/api/shorturl/:shortURL", (req:Request, res:Response)=>{
 })
 
 
+// TEST DB Connection
+app.get("/api/testDB", (req:Request, res:Response)=>{
+    db.select('*').from('USERS').then((data:any)=> console.log(data))
+})
+
 // FCC TRACKER project
 app.post("/api/exercise/new-user", (req:Request, res:Response)=>{
-    const userName:string = req.body;
+    const { userName, userPassword } = req.body;
+    console.log(userName);
+    console.log(userPassword);
 
-    
+    if(registerNewUser(userName, userPassword, db)!==0){
+        res.status(200).send(userName+ " has been registered");
+    }else{
+        res.status(400);
+    }
 })
+
+app.post("/api/exercise/add", (req:Request, res:Response)=>{
+    const { userId, description, duration, date } = req.body;
+
+    if(addNewExercise(userId, description, duration, date, db)){
+        res.status(200).send(description+" has been added");
+    }else{
+        res.status(400).send("Failed to add exercise");
+    }
+})
+
+
 
 
 
