@@ -2,8 +2,10 @@ import * as express from "express";
 import { Request, Response } from "express";
 import * as bodyParser from "body-parser";
 import * as knex from "knex";
+import * as multer from "multer";
 import { registerNewUser, addNewExercise, getUserExerciseLog } from "./controllers/register";
 require('dotenv').config();
+
 
 
 const app = express();
@@ -33,6 +35,24 @@ const db:any = knex({
 app.get("/", (req:Request, res:Response)=>{
     res.status(200).json("Homepage");
 })
+
+// File Metadata Microservice project
+const storage:any = multer.diskStorage({ destination: './tmp/upload' })
+const upload:any = multer({ storage }); //By default multer save file on memory if 'storage' is not defined
+
+// upload.single('file') has to be the same name with the object name (key in form-data) which sent from client
+app.post('/api/fileanalyse', upload.single('file'), (req:Request, res:Response)=>{
+    const file:any = req.file;
+    const meta:any = req.body;
+
+    console.log(meta);
+    res.status(200).json({
+        name: file.originalname,
+        type: file.mimetype,
+        size: file.size
+    })
+})
+
 
 //FCC TIMESTMAP project
 app.get("/api/timestamp/:date_string", (req:Request, res:Response)=>{
