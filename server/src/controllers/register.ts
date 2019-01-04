@@ -20,15 +20,11 @@ export const registerNewUser =async (req: Request, res: Response, db:any) => {
                 res.status(500).end();
             }
 
-            try {    
-                db('USERS').insert({
-                    USER_NAME: userName,
-                    USER_PASSWORD: hashedPassword,
-                }).then((data)=>console.log(data))
-            } catch(err){
-                console.log(err);
-                res.status(500).end();
-            }
+            db('USERS').insert({
+                USER_NAME: userName,
+                USER_PASSWORD: hashedPassword,
+            }).then((data)=>console.log(data))
+         
             res.status(200).send(userName+" inserted");
         })
     }
@@ -47,10 +43,6 @@ export const addNewExercise=(req: Request, res: Response, db:any)=>{
             DATE: new Date(date),
             USER_ID: userId
         }).then((data:any)=>console.log(data))
-        .catch((err:any)=> {
-            console.log(err);
-            res.status(500).end();
-        })
 
         console.log(description+ " inserted ok");
         res.status(200).send(description+" has been added");
@@ -60,17 +52,25 @@ export const addNewExercise=(req: Request, res: Response, db:any)=>{
     }
 }
 
-export const getUserExerciseLog= async (req:Request, res:Response, db:any)=>{
-    const { userId, from, to, limit } = req.params;
+export const getUserExerciseLog = async (req:Request, res:Response, db:any)=>{
+    try {const userId:number = req.query.userId;
+    const from = req.query.from;
+    const to = req.query.to;
+    const limit = req.query.limit;
+    console.log(userId);
 
-    const result:any = await db.select('USER.USER_NAME', 'EXERCISES.DESCRIPTION').from('USERS')
-        .leftJoin('EXERCISES', 'USER.REFERENCE', 'EXERCISES.USER_ID')
-        .where({ USER_ID: userId })
-        .then(console.log)
-        .catch((err:any)=> {
-            console.log(err);
-            res.status(500).end();
+    const result:any = await db.select('USERS.USER_NAME', 'EXERCISES.DESCRIPTION').from('USERS').where({ USER_ID: userId })
+        .leftJoin('EXERCISES', 'USERS.REFERENCE', '=', 'EXERCISES.USER_ID')
+        .then((result:any)=> {
+            console.log(result);
+            return result;
         })
     
-    res.status(200).json(result);
+    res.status(200).json({
+        userName: result[0].USER_NAME,
+        exercise: result[0].DESCRIPTION,
+    })
+    } catch(err){
+        console.log(err);
+    }
 }

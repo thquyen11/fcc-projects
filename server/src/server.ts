@@ -144,8 +144,7 @@ app.post("/api/exercise/add", (req:Request, res:Response)=>{
     addNewExercise(req, res, db);
 })
 
-// app.get('/api/exercise/log?:userId:from:to:limit', (req:Request, res:Response)=>{
-app.get('/api/exercise/log?:userId', (req:Request, res:Response)=>{
+app.get('/api/exercise/log', (req:Request, res:Response)=>{
     getUserExerciseLog(req, res, db);
 })
 
