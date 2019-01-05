@@ -140,9 +140,7 @@ ALTER TABLE ONLY public."USERS" ALTER COLUMN "REFERENCE" SET DEFAULT nextval('pu
 -- Data for Name: EXERCISES; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."EXERCISES" ("REFERENCE", "DESCRIPTION", "DURATION", "USER_ID", "DATE") FROM stdin;
-4	test	1000.0000	1	2019-01-02
-\.
+
 
 
 --
@@ -151,10 +149,7 @@ COPY public."EXERCISES" ("REFERENCE", "DESCRIPTION", "DURATION", "USER_ID", "DAT
 -- Data for Name: USERS; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."USERS" ("REFERENCE", "USER_NAME", "USER_PASSWORD") FROM stdin;
-1	test	$2a$10$.GtxY9uXS9zT/mvBBrFAU..cWmCZBZdqwOz/R1092A/b1KwrrFgpa
-2	test	$2a$10$G99xpIttYrEvKDlvjVpFZu/bQ9JZDBQU0/YOWK/bRpFfkzQl4RQNW
-\.
+
 
 
 --

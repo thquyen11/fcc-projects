@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import * as bodyParser from "body-parser";
 import * as knex from "knex";
 import * as multer from "multer";
+import * as winston from "winston";
 import { registerNewUser, addNewExercise, getUserExerciseLog } from "./controllers/register";
 require('dotenv').config();
 
@@ -12,8 +13,30 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.text());
 
+// add winston to write log
+export const logger: any = winston.createLogger({
+    level: "info",
+    format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.json()
+    ),
+    transports: [
+      new winston.transports.File({ filename: `/logs/combined.log`, level: 'info' })
+    ],
+    exitOnError: true,
+    silent: false,
+  });
+  
+  if (process.env.NODE_ENV !== "production") {
+    logger.add(
+      new winston.transports.Console({
+        format: winston.format.simple()
+      })
+    );
+  }
+
 app.listen(process.env.PORT, ()=>{
-    console.log("Server running on port ", process.env.PORT);
+    logger.info("Server running on port ", process.env.PORT);
 })
 
 const dbTemp:any={
@@ -45,7 +68,7 @@ app.post('/api/fileanalyse', upload.single('file'), (req:Request, res:Response)=
     const file:any = req.file;
     const meta:any = req.body;
 
-    console.log(meta);
+    logger.info(meta);
     res.status(200).json({
         name: file.originalname,
         type: file.mimetype,
@@ -147,10 +170,3 @@ app.post("/api/exercise/add", (req:Request, res:Response)=>{
 app.get('/api/exercise/log', (req:Request, res:Response)=>{
     getUserExerciseLog(req, res, db);
 })
-
-
-
-
-
-
-
