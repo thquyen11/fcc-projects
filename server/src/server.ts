@@ -1,15 +1,42 @@
 import * as express from "express";
 import { Request, Response } from "express";
+import * as helmet from "helmet";
+import * as cors from "cors";
 import * as bodyParser from "body-parser";
 import * as knex from "knex";
 import * as multer from "multer";
 import * as winston from "winston";
+
 import { registerNewUser, addNewExercise, getUserExerciseLog } from "./controllers/register";
 require('dotenv').config();
 
 
 
 const app = express();
+
+app.use(helmet({
+    frameguard: {
+        action: 'sameorigin'
+    },
+    dnsPrefetchControl:{
+        allow: true
+    }
+}));
+
+const whitelist:string[] = [
+    'localhost',
+];
+const corsOptions = {
+    origin: (origin, callback)=>{
+        if(whitelist.indexOf(origin)!==-1){
+            callback(null, true);
+        } else{
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+}
+app.use(cors(corsOptions));
+
 app.use(bodyParser.json());
 app.use(bodyParser.text());
 
