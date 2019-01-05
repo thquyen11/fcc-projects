@@ -6,7 +6,6 @@ import * as bodyParser from "body-parser";
 import * as knex from "knex";
 import * as multer from "multer";
 import * as winston from "winston";
-
 import { registerNewUser, addNewExercise, getUserExerciseLog } from "./controllers/register";
 require('dotenv').config();
 

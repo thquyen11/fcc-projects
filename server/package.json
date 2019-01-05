@@ -20,12 +20,14 @@
     "winston": "^3.1.0"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.11",
     "dotenv": "^6.2.0",
     "ts-node": "^7.0.1"
   },
   "scripts": {
     "build": "tsc",
     "dev": "nodemon ./src/server.ts",
+    "test": "jest --watch *.js",
     "start": "ts-node ./src/server.ts",
     "prod": "npm run build && npm run start"
   },
