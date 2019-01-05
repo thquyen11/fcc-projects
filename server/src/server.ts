@@ -62,7 +62,7 @@ export const logger: any = winston.createLogger({
   }
 
 app.listen(process.env.PORT, ()=>{
-    logger.info("Server running on port ", process.env.PORT);
+    logger.info("Server running on port "+ process.env.PORT);
 })
 
 const dbTemp:any={
@@ -196,3 +196,18 @@ app.post("/api/exercise/add", (req:Request, res:Response)=>{
 app.get('/api/exercise/log', (req:Request, res:Response)=>{
     getUserExerciseLog(req, res, db);
 })
+
+
+// test JEST
+import * as fetch from "node-fetch";
+
+export const getPeople = async (fetch:any)=>{
+    const getRequest:any = await fetch('https://swapi.co/api/people');
+    const data:any = await getRequest.json();
+    return {
+        count: data.count,
+        results: data.results,
+    }
+}
+
+logger.info(getPeople(fetch));
