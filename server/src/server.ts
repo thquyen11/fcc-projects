@@ -6,7 +6,9 @@ import * as bodyParser from "body-parser";
 import * as knex from "knex";
 import * as multer from "multer";
 import * as winston from "winston";
-import { registerNewUser, addNewExercise, getUserExerciseLog } from "./controllers/register";
+import * as register from "./controllers/register";
+import * as sigin from "./controllers/signin";
+import * as profile from './controllers/profile';
 require('dotenv').config();
 
 
@@ -60,10 +62,6 @@ export const logger: any = winston.createLogger({
       })
     );
   }
-
-app.listen(process.env.PORT, ()=>{
-    logger.info("Server running on port "+ process.env.PORT);
-})
 
 const dbTemp:any={
     shortenURL:[],
@@ -186,17 +184,20 @@ app.get("/api/testDB", (req:Request, res:Response)=>{
 
 // FCC TRACKER project
 app.post("/api/exercise/new-user", (req:Request, res:Response)=>{
-    registerNewUser(req, res, db);
+    register.registerNewUser(req, res, db);
 })
 
 app.post("/api/exercise/add", (req:Request, res:Response)=>{
-    addNewExercise(req, res, db);
+    register.addNewExercise(req, res, db);
+})
+
+app.post('/api/exercise/signin', (req:Request, res:Response)=>{
+    sigin.handleSigninAuthentication(req, res, db);
 })
 
 app.get('/api/exercise/log', (req:Request, res:Response)=>{
-    getUserExerciseLog(req, res, db);
+    profile.getUserExerciseLog(req, res, db);
 })
-
 
 // test JEST
 import * as fetch from "node-fetch";
@@ -211,3 +212,7 @@ export const getPeople = async (fetch:any)=>{
 }
 
 logger.info(getPeople(fetch));
+
+app.listen(process.env.PORT, ()=>{
+    logger.info("Server running on port "+ process.env.PORT);
+})
