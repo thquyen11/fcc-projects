@@ -1,13 +1,27 @@
-version: '3.7'
+version: '3.6'
 
 services:
-  express-server:
-    container_name: backend
-    image: node:carbon
-    # build: ./
-    command: npm start
-    working_dir: /app
+  #postgres database
+  database:
+    container_name: postgres
+    build: ./src/configs/postgres
     ports:
-      - "3000:3000"
-    # volumes:
-    #   - ./:
+      - "5433:5432"
+
+  #Redis session database
+  redis:
+    container_name: redis
+    image: redis:5.0.3
+    ports:
+      - "6379:6379"
+    
+  #expres.js backend server
+  backend:
+    container_name: express
+    build: .
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./:/usr/src/backend
+    env_file:
+      - .env

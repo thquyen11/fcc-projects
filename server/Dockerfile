@@ -1,9 +1,11 @@
-FROM node:carbon
+FROM node:8.15.0
 
-# WORKDIR /usr/src/
+#Create app directory
+RUN mkdir -p /usr/src/backend
+WORKDIR /usr/src/backend
 
-COPY ./ ./
-
-RUN npm install
+#Bundle app source
+COPY . /usr/src/backend
+RUN npm i
 
 CMD ["/bin/bash"]

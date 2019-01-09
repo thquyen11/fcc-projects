@@ -5,6 +5,8 @@
 
 # testing
 /coverage
+/test
+/tmp
 
 # production
 /build
@@ -22,3 +24,6 @@ yarn-error.log*
 
 # nodemon
 nodemon.json
+
+# env variables
+.env

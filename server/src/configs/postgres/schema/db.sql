@@ -3,9 +3,9 @@
 --
 
 -- Dumped from database version 10.4
--- Dumped by pg_dump version 10.5
+-- Dumped by pg_dump version 10.4
 
--- Started on 2019-01-04 00:02:41
+-- Started on 2019-01-08 22:33:38
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -39,7 +39,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 199 (class 1259 OID 16657)
+-- TOC entry 196 (class 1259 OID 16504)
 -- Name: EXERCISES; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -55,7 +55,7 @@ CREATE TABLE public."EXERCISES" (
 ALTER TABLE public."EXERCISES" OWNER TO postgres;
 
 --
--- TOC entry 198 (class 1259 OID 16655)
+-- TOC entry 197 (class 1259 OID 16507)
 -- Name: EXERCISES_REFERENCE_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -72,7 +72,7 @@ ALTER TABLE public."EXERCISES_REFERENCE_seq" OWNER TO postgres;
 
 --
 -- TOC entry 2819 (class 0 OID 0)
--- Dependencies: 198
+-- Dependencies: 197
 -- Name: EXERCISES_REFERENCE_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -80,7 +80,7 @@ ALTER SEQUENCE public."EXERCISES_REFERENCE_seq" OWNED BY public."EXERCISES"."REF
 
 
 --
--- TOC entry 197 (class 1259 OID 16649)
+-- TOC entry 198 (class 1259 OID 16509)
 -- Name: USERS; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -94,7 +94,7 @@ CREATE TABLE public."USERS" (
 ALTER TABLE public."USERS" OWNER TO postgres;
 
 --
--- TOC entry 196 (class 1259 OID 16647)
+-- TOC entry 199 (class 1259 OID 16512)
 -- Name: USERS_REFERENCE_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -111,7 +111,7 @@ ALTER TABLE public."USERS_REFERENCE_seq" OWNER TO postgres;
 
 --
 -- TOC entry 2822 (class 0 OID 0)
--- Dependencies: 196
+-- Dependencies: 199
 -- Name: USERS_REFERENCE_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -119,7 +119,7 @@ ALTER SEQUENCE public."USERS_REFERENCE_seq" OWNED BY public."USERS"."REFERENCE";
 
 
 --
--- TOC entry 2679 (class 2604 OID 16660)
+-- TOC entry 2678 (class 2604 OID 16514)
 -- Name: EXERCISES REFERENCE; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -127,7 +127,7 @@ ALTER TABLE ONLY public."EXERCISES" ALTER COLUMN "REFERENCE" SET DEFAULT nextval
 
 
 --
--- TOC entry 2678 (class 2604 OID 16652)
+-- TOC entry 2679 (class 2604 OID 16515)
 -- Name: USERS REFERENCE; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -135,26 +135,29 @@ ALTER TABLE ONLY public."USERS" ALTER COLUMN "REFERENCE" SET DEFAULT nextval('pu
 
 
 --
--- TOC entry 2809 (class 0 OID 16657)
--- Dependencies: 199
+-- TOC entry 2806 (class 0 OID 16504)
+-- Dependencies: 196
 -- Data for Name: EXERCISES; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-
+COPY public."EXERCISES" ("REFERENCE", "DESCRIPTION", "DURATION", "USER_ID", "DATE") FROM stdin;
+\.
 
 
 --
--- TOC entry 2807 (class 0 OID 16649)
--- Dependencies: 197
+-- TOC entry 2808 (class 0 OID 16509)
+-- Dependencies: 198
 -- Data for Name: USERS; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-
+COPY public."USERS" ("REFERENCE", "USER_NAME", "USER_PASSWORD") FROM stdin;
+3	DB_RI	$2a$10$dXA1Tg6kOKJUBcg.QpGQKOAhqtMQ8FA5FcYQb1E8IRLf.U483w6Sa
+\.
 
 
 --
 -- TOC entry 2824 (class 0 OID 0)
--- Dependencies: 198
+-- Dependencies: 197
 -- Name: EXERCISES_REFERENCE_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -163,15 +166,15 @@ SELECT pg_catalog.setval('public."EXERCISES_REFERENCE_seq"', 4, true);
 
 --
 -- TOC entry 2825 (class 0 OID 0)
--- Dependencies: 196
+-- Dependencies: 199
 -- Name: USERS_REFERENCE_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."USERS_REFERENCE_seq"', 2, true);
+SELECT pg_catalog.setval('public."USERS_REFERENCE_seq"', 3, true);
 
 
 --
--- TOC entry 2683 (class 2606 OID 16662)
+-- TOC entry 2681 (class 2606 OID 16517)
 -- Name: EXERCISES EXERCISES_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -180,7 +183,7 @@ ALTER TABLE ONLY public."EXERCISES"
 
 
 --
--- TOC entry 2681 (class 2606 OID 16654)
+-- TOC entry 2683 (class 2606 OID 16519)
 -- Name: USERS USERS_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -189,7 +192,7 @@ ALTER TABLE ONLY public."USERS"
 
 
 --
--- TOC entry 2684 (class 2606 OID 16663)
+-- TOC entry 2684 (class 2606 OID 16520)
 -- Name: EXERCISES FK_EXERCISES_USERS; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -199,63 +202,64 @@ ALTER TABLE ONLY public."EXERCISES"
 
 --
 -- TOC entry 2818 (class 0 OID 0)
--- Dependencies: 199
+-- Dependencies: 196
 -- Name: TABLE "EXERCISES"; Type: ACL; Schema: public; Owner: postgres
 --
 
-GRANT INSERT,REFERENCES,DELETE,TRUNCATE,UPDATE ON TABLE public."EXERCISES" TO "QUYEN";
-GRANT SELECT ON TABLE public."EXERCISES" TO "QUYEN" WITH GRANT OPTION;
+GRANT INSERT,REFERENCES,DELETE,TRUNCATE,UPDATE ON TABLE public."EXERCISES" TO "DB_RI";
+GRANT SELECT ON TABLE public."EXERCISES" TO "DB_RI" WITH GRANT OPTION;
 
 
 --
 -- TOC entry 2820 (class 0 OID 0)
--- Dependencies: 198
+-- Dependencies: 197
 -- Name: SEQUENCE "EXERCISES_REFERENCE_seq"; Type: ACL; Schema: public; Owner: postgres
 --
 
-GRANT USAGE,UPDATE ON SEQUENCE public."EXERCISES_REFERENCE_seq" TO "QUYEN";
-GRANT SELECT ON SEQUENCE public."EXERCISES_REFERENCE_seq" TO "QUYEN" WITH GRANT OPTION;
+GRANT USAGE,UPDATE ON SEQUENCE public."EXERCISES_REFERENCE_seq" TO "DB_RI";
+GRANT SELECT ON SEQUENCE public."EXERCISES_REFERENCE_seq" TO "DB_RI" WITH GRANT OPTION;
 
 
 --
 -- TOC entry 2821 (class 0 OID 0)
--- Dependencies: 197
+-- Dependencies: 198
 -- Name: TABLE "USERS"; Type: ACL; Schema: public; Owner: postgres
 --
 
-GRANT INSERT,REFERENCES,DELETE,TRUNCATE,UPDATE ON TABLE public."USERS" TO "QUYEN";
-GRANT SELECT ON TABLE public."USERS" TO "QUYEN" WITH GRANT OPTION;
+GRANT INSERT,REFERENCES,DELETE,TRUNCATE,UPDATE ON TABLE public."USERS" TO "DB_RI";
+GRANT SELECT ON TABLE public."USERS" TO "DB_RI" WITH GRANT OPTION;
 
 
 --
 -- TOC entry 2823 (class 0 OID 0)
--- Dependencies: 196
+-- Dependencies: 199
 -- Name: SEQUENCE "USERS_REFERENCE_seq"; Type: ACL; Schema: public; Owner: postgres
 --
 
-GRANT USAGE,UPDATE ON SEQUENCE public."USERS_REFERENCE_seq" TO "QUYEN";
-GRANT SELECT ON SEQUENCE public."USERS_REFERENCE_seq" TO "QUYEN" WITH GRANT OPTION;
+GRANT USAGE,UPDATE ON SEQUENCE public."USERS_REFERENCE_seq" TO "DB_RI";
+GRANT SELECT ON SEQUENCE public."USERS_REFERENCE_seq" TO "DB_RI" WITH GRANT OPTION;
 
 
 --
--- TOC entry 1675 (class 826 OID 16645)
+-- TOC entry 1675 (class 826 OID 16525)
 -- Name: DEFAULT PRIVILEGES FOR TABLES; Type: DEFAULT ACL; Schema: -; Owner: postgres
 --
 
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres GRANT INSERT,DELETE,TRUNCATE,UPDATE ON TABLES  TO "QUYEN";
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres GRANT SELECT ON TABLES  TO "QUYEN" WITH GRANT OPTION;
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres GRANT INSERT,DELETE,TRUNCATE,UPDATE ON TABLES  TO "DB_RI";
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres GRANT SELECT ON TABLES  TO "DB_RI" WITH GRANT OPTION;
 
 
 --
--- TOC entry 1676 (class 826 OID 16646)
+-- TOC entry 1676 (class 826 OID 16526)
 -- Name: DEFAULT PRIVILEGES FOR TABLES; Type: DEFAULT ACL; Schema: public; Owner: postgres
 --
 
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT INSERT,DELETE,TRUNCATE,UPDATE ON TABLES  TO "QUYEN";
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT SELECT ON TABLES  TO "QUYEN" WITH GRANT OPTION;
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public REVOKE ALL ON TABLES  FROM postgres;
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT INSERT,DELETE,TRUNCATE,UPDATE ON TABLES  TO "DB_RI";
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT SELECT ON TABLES  TO "DB_RI" WITH GRANT OPTION;
 
 
--- Completed on 2019-01-04 00:02:42
+-- Completed on 2019-01-08 22:33:39
 
 --
 -- PostgreSQL database dump complete

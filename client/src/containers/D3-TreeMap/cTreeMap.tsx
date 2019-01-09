@@ -46,6 +46,8 @@ export class TreeMap extends React.Component{
                     .sum((d:any)=> d.value)
                     .sort((a:any, b:any) => b.height-a.height || b.value - a.value); 
 
+                treemap(root);
+
                 //draw treemap
                 const cell:any = group.selectAll("g").data(root.leaves()).enter()
                     .append("g")
