@@ -24,19 +24,20 @@ app.use(helmet({
     }
 }));
 
-const whitelist:string[] = [
-    'localhost',
-];
-const corsOptions = {
-    origin: (origin, callback)=>{
-        if(whitelist.indexOf(origin)!==-1){
-            callback(null, true);
-        } else{
-            callback(new Error('Not allowed by CORS'));
-        }
-    }
-}
-app.use(cors(corsOptions));
+// const whitelist:string[] = [
+//     'localhost',
+// ];
+// const corsOptions = {
+//     origin: (origin, callback)=>{
+//         if(whitelist.indexOf(origin)!==-1){
+//             callback(null, true);
+//         } else{
+//             callback(new Error('Not allowed by CORS'));
+//         }
+//     }
+// }
+// app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.text());
@@ -210,9 +211,10 @@ export const getPeople = async (fetch:any)=>{
         results: data.results,
     }
 }
-
 logger.info(getPeople(fetch));
 
+
+//Server port
 app.listen(process.env.PORT, ()=>{
     logger.info("Server running on port "+ process.env.PORT);
 })

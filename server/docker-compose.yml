@@ -2,11 +2,11 @@ version: '3.6'
 
 services:
   #postgres database
-  database:
+  db:
     container_name: postgres
     build: ./src/configs/postgres
     ports:
-      - "5433:5432"
+      - "5432:5432"
 
   #Redis session database
   redis:
@@ -19,6 +19,8 @@ services:
   backend:
     container_name: express
     build: .
+    links:
+      - db
     ports:
       - "3001:3001"
     volumes:
