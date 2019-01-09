@@ -7,7 +7,7 @@ import * as knex from "knex";
 import * as multer from "multer";
 import * as winston from "winston";
 import * as register from "./controllers/register";
-import * as sigin from "./controllers/signin";
+import * as signin from "./controllers/signin";
 import * as profile from './controllers/profile';
 require('dotenv').config();
 
@@ -192,7 +192,7 @@ app.post("/api/exercise/add", (req:Request, res:Response)=>{
 })
 
 app.post('/api/exercise/signin', (req:Request, res:Response)=>{
-    sigin.handleSigninAuthentication(req, res, db);
+    signin.handleSigninAuthentication(req, res, db);
 })
 
 app.get('/api/exercise/log', (req:Request, res:Response)=>{
