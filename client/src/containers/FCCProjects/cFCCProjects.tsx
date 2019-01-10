@@ -9,15 +9,67 @@ import {ScatterPlot} from "../D3-ScatterPlot/cScatterPlot";
 import {HeatMap} from "../D3-HeatMap/cHeatMap";
 import { Choropleth } from 'containers/D3-ChoroplethMap/cChoropleth';
 import { Navbar } from "../../components/Navbar/Navbar";
+import { SignIn } from '../../components/Authenticate/SignIn';
+// import { Register } from '../../components/Authenticate/Register';
 import Clock from "../Clock/cClock";
 import { TreeMap } from 'containers/D3-TreeMap/cTreeMap';
+import { connect } from "react-redux";
+import { onSignedIn, loadUser } from './aFCCProjects';
 
 
+interface StateProps{
+  isSignedIn: boolean;
+  user: any;
+}
 
+const mapStateToProps = (state: any): StateProps => {
+  return{
+    isSignedIn: state.Authenticate.isSignedIn,
+    user: state.Authenticate.user,
+  }
+}
 
-export class FCCProjects extends React.Component {
-  constructor(props: any) {
+interface DispatchProps{
+  onSignedIn: typeof onSignedIn;
+  loadUser: typeof loadUser;
+}
+
+const mapDispatchToProps = (dispatch:any): DispatchProps => {
+  return{
+    onSignedIn: ()=> dispatch(onSignedIn()),
+    loadUser: (user:any)=> dispatch(loadUser(user))
+  }
+}
+
+interface Props extends StateProps, DispatchProps{
+
+}
+
+class FCCProjects extends React.Component<Props> {
+  constructor(props: Props) {
     super(props);
+  }
+
+  //Check if user session already signin?
+  componentDidMount(){
+    const token:string = window.localStorage.getItem('token');
+    if(token){
+      fetch('/api/fcc-projects/signin', {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      })
+      .then((resp:any)=> resp.json())
+      .then((user:any)=> {
+        if(user.status===200){
+          this.props.loadUser(user);
+          this.props.onSignedIn();
+        }
+      })
+      .catch((err:any)=> console.log(err));
+    }
   }
 
   render() {
@@ -38,7 +90,7 @@ export class FCCProjects extends React.Component {
       <BrowserRouter>
         <Switch>
           <div className="container">
-            <Navbar/>
+            <Navbar isSignedIn={this.props.isSignedIn}/>
             <div className="row justify-content-center">
               <Route exact path="/" render={() => listProjects.map((project: any, index: number) => {
                   const linkTo = "/fcc-projects/" + project.id;
@@ -64,6 +116,8 @@ export class FCCProjects extends React.Component {
               <Route exact path="/fcc-projects/heat-map" component={HeatMap} />
               <Route exact path="/fcc-projects/choro-map" component={Choropleth} />
               <Route exact path="/fcc-projects/tree-map" component={TreeMap} />
+              <Route exact path='/fcc-projects/signin' render={()=> <SignIn isSignedIn={this.props.isSignedIn} onSignedIn={this.props.onSignedIn}/>} />
+              {/* <Route exact path='/fcc-projects/register' render={()=> <Register isSignedIn={this.props.isSignedIn} />} /> */}
             </div>
           </div>
         </Switch>
@@ -71,3 +125,5 @@ export class FCCProjects extends React.Component {
     )
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(FCCProjects);
