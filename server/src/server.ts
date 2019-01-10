@@ -12,7 +12,6 @@ import * as profile from './controllers/profile';
 require('dotenv').config();
 
 
-
 const app = express();
 
 app.use(helmet({
