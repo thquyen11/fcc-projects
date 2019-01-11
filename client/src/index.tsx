@@ -16,8 +16,6 @@ import { Clock } from "./containers/Clock/rClock";
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
-
-
 const logger = createLogger();
 
 const rootReducers = combineReducers({
