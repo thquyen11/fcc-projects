@@ -7,7 +7,7 @@ import {createStore,applyMiddleware,combineReducers} from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import FCCProjects from './containers/FCCProjects/cFCCProjects';
-import { Authenticate } from './containers/FCCProjects/rFCCProjects';
+import { Authenticate, Profile } from './containers/FCCProjects/rFCCProjects';
 import { RandomQuote } from "./containers/QuoteMachine/rQuoteMachine";
 import { Markdown, Zoom } from "./containers/MarkdownPreviewer/rMarkdownPreviewer";
 import { Drum } from "./containers/Drum/rDrum";
@@ -22,6 +22,7 @@ const logger = createLogger();
 
 const rootReducers = combineReducers({
   Authenticate,
+  Profile,
   RandomQuote,
   Markdown,
   Zoom,
@@ -48,6 +49,6 @@ ReactDOM.render(
     </Switch>
   </BrowserRouter>
   </Provider>,
-  document.querySelector('#page-wrapper') as HTMLElement
+  document.querySelector('#root') as HTMLElement
 );
 registerServiceWorker();

@@ -25,11 +25,15 @@ export class SignIn extends React.Component<Props> {
         }
     }
 
+    private saveAuthTokenInSessions=(token:string)=>{
+        window.localStorage.setItem('token', token);
+    }
+
     private handleSignIn=(event:any, user:any)=>{
         event.preventDefault();
 
         fetch('/api/fcc-projects/signin', {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -50,10 +54,6 @@ export class SignIn extends React.Component<Props> {
         .catch((err:any)=> console.log(err));
     }
 
-    private saveAuthTokenInSessions=(token:string)=>{
-        window.localStorage.setItem('token', token);
-    }
-
     render() {
         return this.props.isSignedIn ? <Redirect to='/' />
             : <div id="wrapper-signin" className="container col-md-6">
@@ -67,7 +67,7 @@ export class SignIn extends React.Component<Props> {
                         <label htmlFor="userPassword">Password</label>
                         <input onChange={(e) => this.onInputChange(e)} type="password" className="form-control" id="userPassword" placeholder="Password"></input>
                     </div>
-                    <button type="submit" className="btn btn-primary" onClick={(e) => this.handleSignIn(e, this.state)}>Submit</button>
+                    <button type="submit" className="btn btn-primary" onClick={(e) => this.handleSignIn(e, this.state)}>Sign In</button>
                 </form>
             </div>
     }

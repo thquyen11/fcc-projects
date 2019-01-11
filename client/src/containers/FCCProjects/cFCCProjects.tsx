@@ -10,34 +10,47 @@ import {HeatMap} from "../D3-HeatMap/cHeatMap";
 import { Choropleth } from 'containers/D3-ChoroplethMap/cChoropleth';
 import { Navbar } from "../../components/Navbar/Navbar";
 import { SignIn } from '../../components/Authenticate/SignIn';
-// import { Register } from '../../components/Authenticate/Register';
+import { Register } from '../../components/Authenticate/Register';
+import { Profile } from '../../components/Authenticate/Profile';
 import Clock from "../Clock/cClock";
 import { TreeMap } from 'containers/D3-TreeMap/cTreeMap';
 import { connect } from "react-redux";
-import { onSignedIn, loadUser } from './aFCCProjects';
-
+import { onSignedIn, loadUser, onRegistered, openProfile, updateProfile } from './aFCCProjects';
+import { Modal } from '../../components/Modal/Modal';
 
 interface StateProps{
   isSignedIn: boolean;
   user: any;
+  isRegistered:boolean;
+  isProfileOpen: boolean;
+  profile:any;
 }
 
 const mapStateToProps = (state: any): StateProps => {
   return{
     isSignedIn: state.Authenticate.isSignedIn,
     user: state.Authenticate.user,
+    isRegistered: state.Authenticate.isRegistered,  
+    isProfileOpen: state.Profile.isProfileOpen,
+    profile: state.Profile.profile,
   }
 }
 
 interface DispatchProps{
   onSignedIn: typeof onSignedIn;
   loadUser: typeof loadUser;
+  onRegistered: typeof onRegistered;
+  openProfile: typeof openProfile;
+  updateProfile: typeof updateProfile;
 }
 
 const mapDispatchToProps = (dispatch:any): DispatchProps => {
   return{
     onSignedIn: ()=> dispatch(onSignedIn()),
-    loadUser: (user:any)=> dispatch(loadUser(user))
+    loadUser: (user:any)=> dispatch(loadUser(user)),
+    onRegistered: ()=> dispatch(onRegistered()),
+    openProfile: ()=> dispatch(openProfile()),
+    updateProfile: (profile:any)=> dispatch(updateProfile(profile))
   }
 }
 
@@ -64,7 +77,7 @@ class FCCProjects extends React.Component<Props> {
       .then((resp:any)=> resp.json())
       .then((user:any)=> {
         if(user.status===200){
-          this.props.loadUser(user);
+          this.props.loadUser(user); //userId + userName
           this.props.onSignedIn();
         }
       })
@@ -89,8 +102,9 @@ class FCCProjects extends React.Component<Props> {
     return (
       <BrowserRouter>
         <Switch>
+          { this.props.isProfileOpen && <Modal><Profile profile={this.props.profile}/></Modal>}
           <div className="container">
-            <Navbar isSignedIn={this.props.isSignedIn}/>
+            <Navbar isSignedIn={this.props.isSignedIn} user={this.props.user} openProfile={this.props.openProfile} updateProfile={this.props.updateProfile} />
             <div className="row justify-content-center">
               <Route exact path="/" render={() => listProjects.map((project: any, index: number) => {
                   const linkTo = "/fcc-projects/" + project.id;
@@ -117,7 +131,7 @@ class FCCProjects extends React.Component<Props> {
               <Route exact path="/fcc-projects/choro-map" component={Choropleth} />
               <Route exact path="/fcc-projects/tree-map" component={TreeMap} />
               <Route exact path='/fcc-projects/signin' render={()=> <SignIn isSignedIn={this.props.isSignedIn} onSignedIn={this.props.onSignedIn}/>} />
-              {/* <Route exact path='/fcc-projects/register' render={()=> <Register isSignedIn={this.props.isSignedIn} />} /> */}
+              <Route exact path='/fcc-projects/register' render={()=> <Register isRegistered={this.props.isRegistered} onRegistered={this.props.onRegistered} />} />
             </div>
           </div>
         </Switch>
