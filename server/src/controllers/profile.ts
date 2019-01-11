@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import * as bcrypt from 'bcryptjs';
+// import * as bcrypt from 'bcryptjs';
 import { logger } from "../server";
 
 export const getUserExerciseLog = async (req:Request, res:Response, db:any)=>{
@@ -23,4 +23,8 @@ export const getUserExerciseLog = async (req:Request, res:Response, db:any)=>{
     } catch(err){
         logger.error(err);
     }
+}
+
+export const handleProfileAuthen=(req:Request, res:Response, db:any, token:any)=>{
+    db.select('')
 }

@@ -200,7 +200,15 @@ app.get('/api/exercise/log', (req:Request, res:Response)=>{
 })
 
 //Udemy: Authentication
-app.post('/api/fcc-projects/profile/:id')
+app.get('/api/fcc-projects/profile', (req:Request, res:Response)=>{
+    const { Authorization } = req.headers.authorization;
+    profile.handleProfileAuthen(req, res, db, Authorization);
+})
+
+app.get('/api/fcc-projects/profile/:id', (req:Request, res:Response)=>{
+    const { id } = req.param;
+    profile.handleProfileGet();
+})
 
 // test JEST
 import * as fetch from "node-fetch";

@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import * as bcrypt from 'bcryptjs';
 import { logger } from "../server";
 import * as jwt from 'jsonwebtoken';
+import * as redis from 'redis';
+import { resolve } from "bluebird";
 
 
 export const handleSignin= async (req: Request, res: Response, db:any)=>{
@@ -35,8 +37,18 @@ export const handleSignin= async (req: Request, res: Response, db:any)=>{
     }
 }
 
-const getAuthTokenId=()=>{
-    logger.info('auth ok');
+const redisClient:any = redis.createClient();
+const getAuthTokenId= (req:Request, res:Response, db:any)=>{
+    const { authorization } = req.headers;
+    return redisClient.get(authorization, async (err:any, reply:any)=>{
+        if(err){
+            return res.status(400).json('Unauthorized');
+        }
+
+        const userName:string = await db.select('USER_NAME').from('USERS').where('REFERENCE','=',reply);
+        return res.json({userId: reply, userName: userName})
+    })
+     
 }
 
 const signToken=(userId:number, userName:string)=>{
@@ -44,20 +56,28 @@ const signToken=(userId:number, userName:string)=>{
     return jwt.sign(jwtPayLoad, process.env.JWTSECRET, { expiresIn: '2 days' })
 }
 
+const setToken=(key:any, value:number)=>{
+    return Promise.resolve(redisClient.set(key, value, 'EX', 600)); //this key will expire after 600 seconds
+}
+
 const createSessions=(user)=>{
     const { userName, userId } = user;
     const token:any = signToken(userId, userName);
-    return Promise.resolve({
-        sucess: 'true',
-        userid: userId,
-        token: token
-    })
+    return setToken(token, userId)
+            .then(()=> {
+                return {
+                    sucess: 'true',
+                    userId: userId,
+                    token: token
+                }
+            })
+            .catch((err:any)=> console.log(err))
 }
 
 export const handleSigninAuthentication=(req:Request, res:Response, db:any)=>{
     const { authorization } = req.headers;
     return authorization? 
-        getAuthTokenId() :
+        getAuthTokenId(req, res, db) :
         handleSignin(req, res, db)
             .then((user:any)=> {
                 user.userName && user.userId? 
