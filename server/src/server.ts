@@ -199,9 +199,11 @@ app.get('/api/exercise/log', (req:Request, res:Response)=>{
     profile.getUserExerciseLog(req, res, db);
 })
 
+//Udemy: Authentication
+app.post('/api/fcc-projects/profile/:id')
+
 // test JEST
 import * as fetch from "node-fetch";
-
 export const getPeople = async (fetch:any)=>{
     const getRequest:any = await fetch('https://swapi.co/api/people');
     const data:any = await getRequest.json();
