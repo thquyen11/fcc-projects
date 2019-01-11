@@ -2,11 +2,12 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from "react-redux";
 import { createLogger } from "redux-logger";
-import thunkMiddleware from "../node_modules/redux-thunk";
-import {createStore,applyMiddleware,combineReducers} from "../node_modules/redux";
-import { composeWithDevTools } from "../node_modules/redux-devtools-extension";
+import thunkMiddleware from "redux-thunk";
+import {createStore,applyMiddleware,combineReducers} from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import {FCCProjects} from './containers/FCCProjects/cFCCProjects';
+import FCCProjects from './containers/FCCProjects/cFCCProjects';
+import { Authenticate, Profile } from './containers/FCCProjects/rFCCProjects';
 import { RandomQuote } from "./containers/QuoteMachine/rQuoteMachine";
 import { Markdown, Zoom } from "./containers/MarkdownPreviewer/rMarkdownPreviewer";
 import { Drum } from "./containers/Drum/rDrum";
@@ -20,6 +21,8 @@ import registerServiceWorker from './registerServiceWorker';
 const logger = createLogger();
 
 const rootReducers = combineReducers({
+  Authenticate,
+  Profile,
   RandomQuote,
   Markdown,
   Zoom,
@@ -46,6 +49,6 @@ ReactDOM.render(
     </Switch>
   </BrowserRouter>
   </Provider>,
-  document.querySelector('#page-wrapper') as HTMLElement
+  document.querySelector('#root') as HTMLElement
 );
 registerServiceWorker();

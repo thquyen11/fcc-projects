@@ -9,15 +9,80 @@ import {ScatterPlot} from "../D3-ScatterPlot/cScatterPlot";
 import {HeatMap} from "../D3-HeatMap/cHeatMap";
 import { Choropleth } from 'containers/D3-ChoroplethMap/cChoropleth';
 import { Navbar } from "../../components/Navbar/Navbar";
+import { SignIn } from '../../components/Authenticate/SignIn';
+import { Register } from '../../components/Authenticate/Register';
+import { Profile } from '../../components/Authenticate/Profile';
 import Clock from "../Clock/cClock";
 import { TreeMap } from 'containers/D3-TreeMap/cTreeMap';
+import { connect } from "react-redux";
+import { onSignedIn, loadUser, onRegistered, openProfile, updateProfile } from './aFCCProjects';
+import { Modal } from '../../components/Modal/Modal';
 
+interface StateProps{
+  isSignedIn: boolean;
+  user: any;
+  isRegistered:boolean;
+  isProfileOpen: boolean;
+  profile:any;
+}
 
+const mapStateToProps = (state: any): StateProps => {
+  return{
+    isSignedIn: state.Authenticate.isSignedIn,
+    user: state.Authenticate.user,
+    isRegistered: state.Authenticate.isRegistered,  
+    isProfileOpen: state.Profile.isProfileOpen,
+    profile: state.Profile.profile,
+  }
+}
 
+interface DispatchProps{
+  onSignedIn: typeof onSignedIn;
+  loadUser: typeof loadUser;
+  onRegistered: typeof onRegistered;
+  openProfile: typeof openProfile;
+  updateProfile: typeof updateProfile;
+}
 
-export class FCCProjects extends React.Component {
-  constructor(props: any) {
+const mapDispatchToProps = (dispatch:any): DispatchProps => {
+  return{
+    onSignedIn: ()=> dispatch(onSignedIn()),
+    loadUser: (user:any)=> dispatch(loadUser(user)),
+    onRegistered: ()=> dispatch(onRegistered()),
+    openProfile: ()=> dispatch(openProfile()),
+    updateProfile: (profile:any)=> dispatch(updateProfile(profile))
+  }
+}
+
+interface Props extends StateProps, DispatchProps{
+
+}
+
+class FCCProjects extends React.Component<Props> {
+  constructor(props: Props) {
     super(props);
+  }
+
+  //Check if user session already signin?
+  componentDidMount(){
+    const token:string = window.localStorage.getItem('token');
+    if(token){
+      fetch('/api/fcc-projects/signin', {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      })
+      .then((resp:any)=> resp.json())
+      .then((user:any)=> {
+        if(user.status===200){
+          this.props.loadUser(user); //userId + userName
+          this.props.onSignedIn();
+        }
+      })
+      .catch((err:any)=> console.log(err));
+    }
   }
 
   render() {
@@ -37,8 +102,9 @@ export class FCCProjects extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
+          { this.props.isProfileOpen && <Modal><Profile profile={this.props.profile}/></Modal>}
           <div className="container">
-            <Navbar/>
+            <Navbar isSignedIn={this.props.isSignedIn} user={this.props.user} openProfile={this.props.openProfile} updateProfile={this.props.updateProfile} />
             <div className="row justify-content-center">
               <Route exact path="/" render={() => listProjects.map((project: any, index: number) => {
                   const linkTo = "/fcc-projects/" + project.id;
@@ -64,6 +130,8 @@ export class FCCProjects extends React.Component {
               <Route exact path="/fcc-projects/heat-map" component={HeatMap} />
               <Route exact path="/fcc-projects/choro-map" component={Choropleth} />
               <Route exact path="/fcc-projects/tree-map" component={TreeMap} />
+              <Route exact path='/fcc-projects/signin' render={()=> <SignIn isSignedIn={this.props.isSignedIn} onSignedIn={this.props.onSignedIn}/>} />
+              <Route exact path='/fcc-projects/register' render={()=> <Register isRegistered={this.props.isRegistered} onRegistered={this.props.onRegistered} />} />
             </div>
           </div>
         </Switch>
@@ -71,3 +139,5 @@ export class FCCProjects extends React.Component {
     )
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(FCCProjects);
