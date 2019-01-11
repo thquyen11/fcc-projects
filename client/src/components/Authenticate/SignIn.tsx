@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Redirect } from 'react-router';
+require('dotenv').config();
 
 
 interface Props {
@@ -25,15 +26,17 @@ export class SignIn extends React.Component<Props> {
         }
     }
 
-    private saveAuthTokenInSessions=(token:string)=>{
-        window.localStorage.setItem('token', token);
+    private saveAuthTokenInSessions=(data:any)=>{
+        window.localStorage.setItem('token', data.token);
+        window.localStorage.setItem('userId', data.userId);
     }
 
     private handleSignIn=(event:any, user:any)=>{
         event.preventDefault();
 
-        fetch('/api/fcc-projects/signin', {
-            method: 'GET',
+        
+        fetch('http://localhost:3001/api/exercise/signin', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -42,12 +45,11 @@ export class SignIn extends React.Component<Props> {
                 userPassword: user.userPassword
             })
         })
-        .then((resp:any)=> resp.json())
-        .then((data:any)=> {
-            if(data.status===200){
-                this.saveAuthTokenInSessions(data.token);
+        .then((resp:any)=> {
+            if(resp.status===200){
+                this.saveAuthTokenInSessions(resp);
                 this.props.onSignedIn();
-            }else if(data.status===401){
+            }else if(resp.status===401){
                 alert('username or password is not correct');
             }
         })

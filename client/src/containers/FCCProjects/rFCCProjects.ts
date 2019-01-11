@@ -1,7 +1,7 @@
 import { SIGN_IN, LOAD_USER, REGISTER, OPEN_PROFILE, UPDATE_PROFILE } from './constans';
 
 const initialAuthenticate={
-    isSignedIn: true,
+    isSignedIn: false,
     isRegistered: false,
     user:{
         id: 0,

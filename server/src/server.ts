@@ -9,6 +9,7 @@ import * as winston from "winston";
 import * as register from "./controllers/register";
 import * as signin from "./controllers/signin";
 import * as profile from './controllers/profile';
+import * as auth from './controllers/authorization';
 require('dotenv').config();
 
 
@@ -178,7 +179,7 @@ app.get("/api/shorturl/:shortURL", (req:Request, res:Response)=>{
 
 // TEST DB Connection
 app.get("/api/testDB", (req:Request, res:Response)=>{
-    db.select('*').from('USERS').then((data:any)=> res.send(data));
+    db.select('*').from('USERS').where({USER_NAME: 'test'}).then((data:any)=> res.send(data));
 
 })
 
@@ -200,14 +201,9 @@ app.get('/api/exercise/log', (req:Request, res:Response)=>{
 })
 
 //Udemy: Authentication
-app.get('/api/fcc-projects/profile', (req:Request, res:Response)=>{
-    const { Authorization } = req.headers.authorization;
-    profile.handleProfileAuthen(req, res, db, Authorization);
-})
-
-app.get('/api/fcc-projects/profile/:id', (req:Request, res:Response)=>{
-    const { id } = req.param;
-    profile.handleProfileGet();
+app.get('/api/fcc-projects/profile/:id', auth.requireAuth, (req:Request, res:Response)=>{
+    const { id } = req.params;
+    profile.handleProfileGet(req, res, db, id);
 })
 
 // test JEST

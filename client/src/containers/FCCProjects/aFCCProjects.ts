@@ -2,21 +2,21 @@ import { SIGN_IN, LOAD_USER, REGISTER, OPEN_PROFILE, UPDATE_PROFILE } from './co
 
 export const onSignedIn=()=>{
     return{
-        action: SIGN_IN,
+        type: SIGN_IN,
         payload: ''
     }
 }
 
 export const onRegistered=()=>{
     return{
-        action: REGISTER,
+        type: REGISTER,
         payload: ''
     }
 }
 
 export const loadUser=(user:any)=>{
     return{
-        action: LOAD_USER,
+        type: LOAD_USER,
         payload:{
             id: user.id,
             name: user.name,

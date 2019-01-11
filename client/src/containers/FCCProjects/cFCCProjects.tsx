@@ -67,7 +67,7 @@ class FCCProjects extends React.Component<Props> {
   componentDidMount(){
     const token:string = window.localStorage.getItem('token');
     if(token){
-      fetch('/api/fcc-projects/signin', {
+      fetch('/api/exercise/signin', {
         method: 'POST',
         headers:{
           'Content-Type': 'application/json',
