@@ -15,7 +15,7 @@ import { Profile } from '../../components/Authenticate/Profile';
 import Clock from "../Clock/cClock";
 import { TreeMap } from 'containers/D3-TreeMap/cTreeMap';
 import { connect } from "react-redux";
-import { onSignedIn, loadUser, onRegistered, openProfile, updateProfile } from './aFCCProjects';
+import { onSignedIn, loadUser, onRegistered, openProfile, closeProfile, updateProfile } from './aFCCProjects';
 import { Modal } from '../../components/Modal/Modal';
 
 interface StateProps{
@@ -41,6 +41,7 @@ interface DispatchProps{
   loadUser: typeof loadUser;
   onRegistered: typeof onRegistered;
   openProfile: typeof openProfile;
+  closeProfile: typeof closeProfile;
   updateProfile: typeof updateProfile;
 }
 
@@ -50,6 +51,7 @@ const mapDispatchToProps = (dispatch:any): DispatchProps => {
     loadUser: (user:any)=> dispatch(loadUser(user)),
     onRegistered: ()=> dispatch(onRegistered()),
     openProfile: ()=> dispatch(openProfile()),
+    closeProfile: ()=> dispatch(closeProfile()),
     updateProfile: (profile:any)=> dispatch(updateProfile(profile))
   }
 }
@@ -65,9 +67,11 @@ class FCCProjects extends React.Component<Props> {
 
   //Check if user session already signin?
   componentDidMount(){
+    console.log('componentDidMount');
     const token:string = window.localStorage.getItem('token');
+    console.log(token);
     if(token){
-      fetch('/api/exercise/signin', {
+      fetch('http://localhost:3001/api/exercise/signin', {
         method: 'POST',
         headers:{
           'Content-Type': 'application/json',
@@ -75,9 +79,9 @@ class FCCProjects extends React.Component<Props> {
         }
       })
       .then((resp:any)=> resp.json())
-      .then((user:any)=> {
-        if(user.status===200){
-          this.props.loadUser(user); //userId + userName
+      .then((data:any)=> {
+        if(data.sucess==='true'){
+          this.props.loadUser(()=>{ data.userId, data.userName }); //userId + userName
           this.props.onSignedIn();
         }
       })
@@ -102,7 +106,7 @@ class FCCProjects extends React.Component<Props> {
     return (
       <BrowserRouter>
         <Switch>
-          { this.props.isProfileOpen && <Modal><Profile profile={this.props.profile}/></Modal>}
+          { this.props.isProfileOpen && <Modal><Profile profile={this.props.profile} closeProfile={this.props.closeProfile}/></Modal>}
           <div className="container">
             <Navbar isSignedIn={this.props.isSignedIn} user={this.props.user} openProfile={this.props.openProfile} updateProfile={this.props.updateProfile} />
             <div className="row justify-content-center">

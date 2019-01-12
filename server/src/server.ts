@@ -202,7 +202,9 @@ app.get('/api/exercise/log', (req:Request, res:Response)=>{
 
 //Udemy: Authentication
 app.get('/api/fcc-projects/profile/:id', auth.requireAuth, (req:Request, res:Response)=>{
+    console.log('start profile controller');
     const { id } = req.params;
+    console.log('id '+id);
     profile.handleProfileGet(req, res, db, id);
 })
 

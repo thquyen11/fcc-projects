@@ -1,4 +1,4 @@
-import { SIGN_IN, LOAD_USER, REGISTER, OPEN_PROFILE, UPDATE_PROFILE } from './constans';
+import { SIGN_IN, LOAD_USER, REGISTER, OPEN_PROFILE, CLOSE_PROFILE, UPDATE_PROFILE } from './constans';
 
 export const onSignedIn=()=>{
     return{
@@ -26,14 +26,21 @@ export const loadUser=(user:any)=>{
 
 export const openProfile=()=>{
     return{
-        action: OPEN_PROFILE,
+        type: OPEN_PROFILE,
+        payload: ''
+    }
+}
+
+export const closeProfile=()=>{
+    return{
+        type: CLOSE_PROFILE,
         payload: ''
     }
 }
 
 export const updateProfile=(profile:any)=>{
     return{
-        action: UPDATE_PROFILE,
+        type: UPDATE_PROFILE,
         payload: profile
     }
 }

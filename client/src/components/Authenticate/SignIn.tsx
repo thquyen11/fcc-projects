@@ -45,11 +45,14 @@ export class SignIn extends React.Component<Props> {
                 userPassword: user.userPassword
             })
         })
-        .then((resp:any)=> {
-            if(resp.status===200){
-                this.saveAuthTokenInSessions(resp);
+        .then((res:any)=> res.json())
+        .then((data:any)=> {
+            console.log(data.sucess);
+            if(data && data.sucess==='true'){
+                console.log(data.userId);
+                this.saveAuthTokenInSessions(data);
                 this.props.onSignedIn();
-            }else if(resp.status===401){
+            }else{
                 alert('username or password is not correct');
             }
         })

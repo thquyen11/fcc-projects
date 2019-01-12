@@ -18,6 +18,8 @@ export class Navbar extends React.Component<Props>{
   private onProfileRequest = () => {
     const id: string = window.localStorage.getItem('userId');
     const token: string = window.localStorage.getItem('token');
+    console.log(id);
+    console.log(token);
     fetch('http://localhost:3001/api/fcc-projects/profile/' + id, {
       method: 'GET',
       headers: {
@@ -27,9 +29,9 @@ export class Navbar extends React.Component<Props>{
     })
       .then((resp: any) => resp.json())
       .then((data: any) => {
-        if (data.status === 200) {
+        if (data.sucess === 'true') {
           this.props.openProfile();
-          this.props.updateProfile(data.body);
+          this.props.updateProfile(()=>{ data.userId, data.userName });
           return <Redirect to="/fcc-projects/profile" />
         } else {
           alert('Please sign in first');
