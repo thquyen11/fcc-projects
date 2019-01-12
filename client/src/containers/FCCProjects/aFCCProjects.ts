@@ -1,22 +1,22 @@
-import { SIGN_IN, LOAD_USER, REGISTER, OPEN_PROFILE, UPDATE_PROFILE } from './constans';
+import { SIGN_IN, LOAD_USER, REGISTER, OPEN_PROFILE, CLOSE_PROFILE, UPDATE_PROFILE } from './constans';
 
 export const onSignedIn=()=>{
     return{
-        action: SIGN_IN,
+        type: SIGN_IN,
         payload: ''
     }
 }
 
 export const onRegistered=()=>{
     return{
-        action: REGISTER,
+        type: REGISTER,
         payload: ''
     }
 }
 
 export const loadUser=(user:any)=>{
     return{
-        action: LOAD_USER,
+        type: LOAD_USER,
         payload:{
             id: user.id,
             name: user.name,
@@ -26,14 +26,21 @@ export const loadUser=(user:any)=>{
 
 export const openProfile=()=>{
     return{
-        action: OPEN_PROFILE,
+        type: OPEN_PROFILE,
+        payload: ''
+    }
+}
+
+export const closeProfile=()=>{
+    return{
+        type: CLOSE_PROFILE,
         payload: ''
     }
 }
 
 export const updateProfile=(profile:any)=>{
     return{
-        action: UPDATE_PROFILE,
+        type: UPDATE_PROFILE,
         payload: profile
     }
 }

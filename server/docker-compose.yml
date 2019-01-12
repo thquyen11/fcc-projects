@@ -31,5 +31,7 @@ services:
       - .env
     environment:
       DB_HOST: postgres #overwrite DB_HOST in .env (only for Docker)
+      REDIS_URI: redis://redis:6379
     links:
       - postgres
+      - redis

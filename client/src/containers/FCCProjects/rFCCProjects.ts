@@ -1,7 +1,7 @@
-import { SIGN_IN, LOAD_USER, REGISTER, OPEN_PROFILE, UPDATE_PROFILE } from './constans';
+import { SIGN_IN, LOAD_USER, REGISTER, OPEN_PROFILE, CLOSE_PROFILE, UPDATE_PROFILE } from './constans';
 
 const initialAuthenticate={
-    isSignedIn: true,
+    isSignedIn: false,
     isRegistered: false,
     user:{
         id: 0,
@@ -34,6 +34,8 @@ export const Profile=(state:any=initialProfile, action:any={})=>{
     switch(action.type){
         case OPEN_PROFILE:
             return Object.assign({}, state, { isProfileOpen: true })
+        case CLOSE_PROFILE:
+            return Object.assign({}, state, { isProfileOpen: false })
         case UPDATE_PROFILE:
             return Object.assign({}, state, { profile: action.payload })
         default:

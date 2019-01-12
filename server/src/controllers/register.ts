@@ -26,7 +26,7 @@ export const registerNewUser =async (req: Request, res: Response, db:any) => {
                 USER_PASSWORD: hashedPassword,
             }).then((data)=>logger.info(data))
          
-            res.status(200).send(userName+" inserted");
+            res.status(200).json(userName+" inserted");
         })
     }
     } catch(err){

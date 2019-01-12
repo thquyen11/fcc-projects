@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Redirect } from 'react-router';
-
+require('dotenv').config();
 
 interface Props {
     isRegistered: boolean;
@@ -28,7 +28,7 @@ export class Register extends React.Component<Props> {
     private handleRegister=(user:any, e:any)=>{
         e.preventDefault();
 
-        fetch('/api/fcc-projects/register',{
+        fetch('http://localhost:3001/api/exercise/new-user',{
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
@@ -38,15 +38,14 @@ export class Register extends React.Component<Props> {
                 userPassword: user.userPassword
             })
         })
-        .then((resp:any)=> resp.json())
-        .then((data:any)=>{
-            if(data.status===200){
+        .then((resp:any)=> {
+            if(resp.status===200){
                 alert('user registered successful');
-                this.props.onRegistered();
-            }else if(data.status===400){
+                console.log('user registered successful');
+            }else if(resp.status===400){
                 alert('userName already exist');
-                this.props.onRegistered();
             }
+            this.props.onRegistered();
         })
         .catch((err:any)=> console.log(err));
     }
@@ -57,7 +56,7 @@ export class Register extends React.Component<Props> {
                 <form>
                     <div className="form-group">
                         <label htmlFor="userName">User Name</label>
-                        <input onChange={(e) => this.onInputChange(e)} type="text" className="form-control" id="userName" aria-describedby="emailHelp" placeholder="Enter email"></input>
+                        <input onChange={(e) => this.onInputChange(e)} type="text" className="form-control" id="userName" aria-describedby="emailHelp" placeholder="User Name"></input>
                         <small id="emailHelp" className="form-text text-muted">We'll never share your user name with anyone else.</small>
                     </div>
                     <div className="form-group">

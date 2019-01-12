@@ -1,42 +1,47 @@
 import * as React from 'react';
 import { Link, Redirect } from "react-router-dom";
 import "./Navbar.css";
+require('dotenv').config();
 
 interface Props {
   isSignedIn: boolean,
   user: any,
-  openProfile:any,
+  openProfile: any,
   updateProfile: any
 }
 
 export class Navbar extends React.Component<Props>{
-  constructor(props:Props){
+  constructor(props: Props) {
     super(props);
   }
 
-  private onProfileRequest=()=>{
-    fetch('/api/fcc-projects/profile', {
-      method: 'POST',
+  private onProfileRequest = () => {
+    const id: string = window.localStorage.getItem('userId');
+    const token: string = window.localStorage.getItem('token');
+    console.log(id);
+    console.log(token);
+    fetch('http://localhost:3001/api/fcc-projects/profile/' + id, {
+      method: 'GET',
       headers: {
-          'Content-Type': 'application/json',
-      },
-      body: window.localStorage.getItem('token')
-  })
-  .then((resp:any)=> resp.json())
-  .then((data:any)=> {
-      if(data.status===200){
-        this.props.openProfile();
-        this.props.updateProfile(data.body);
-        return <Redirect to="/fcc-projects/profile"></Redirect>
-      } else{
-        alert('Please sign in first');
-        return <Redirect to="/"></Redirect>
+        'Content-Type': 'application/json',
+        'Authorization': token
       }
-  })
-  .catch((err:any)=> console.log(err));
+    })
+      .then((resp: any) => resp.json())
+      .then((data: any) => {
+        if (data.sucess === 'true') {
+          this.props.openProfile();
+          this.props.updateProfile(()=>{ data.userId, data.userName });
+          return <Redirect to="/fcc-projects/profile" />
+        } else {
+          alert('Please sign in first');
+          return <Redirect to="/fcc-projects/signin" />
+        }
+      })
+      .catch((err: any) => console.log(err));
   }
-  
-  render(){
+
+  render() {
     return (
       <nav className="navbar navbar-expand-sm bg-dark navbar-dark" id="navbar">
         <Link to="/"><a className="navbar-brand" href="">Home</a></Link>
@@ -58,8 +63,8 @@ export class Navbar extends React.Component<Props>{
           {this.props.isSignedIn ?
             <div>
               <div className="nav-item mr-4" style={{ display: 'inline-block', color: 'white' }}><p>Welcome Back {this.props.user.userName}</p></div>
-              <button type="button" onClick={()=> this.onProfileRequest()}>Profile</button>
-              <Link to="/fcc-projects/signout"><button type="button">Signout</button></Link>
+              <button type="button" onClick={() => this.onProfileRequest()}>Profile</button>
+              <button type="button">Signout</button>
             </div> :
             <div>
               <Link to="/fcc-projects/signin"><button type="button">Sign In</button></Link>

@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import * as bcrypt from 'bcryptjs';
 import { logger } from "../server";
 
 export const getUserExerciseLog = async (req:Request, res:Response, db:any)=>{
@@ -23,4 +22,14 @@ export const getUserExerciseLog = async (req:Request, res:Response, db:any)=>{
     } catch(err){
         logger.error(err);
     }
+}
+
+export const handleProfileGet=(req:Request, res:Response, db:any, userId:number)=>{
+    console.log('userId '+userId);
+    db.select('USER_NAME').from('USERS').where({ REFERENCE: userId})
+        .then((user:any)=>{
+            console.log(user[0].USER_NAME);
+            return res.status(200).json({ sucess: 'true', userId: userId, userName: user[0].USER_NAME })
+        })
+        .catch((err:any)=> console.log(err))
 }
